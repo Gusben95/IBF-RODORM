@@ -27,6 +27,7 @@ const server = ((req, res) => {
 
 
   app.get('/', (req, res) => {
+    res.statusCode = 200;
     res.send("Try /getAllUsers or /createUser");
   });
 
