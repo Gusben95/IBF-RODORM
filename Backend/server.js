@@ -5,7 +5,7 @@ const express = require("express");
 
 const app = express();
 require('dotenv').config();
-
+const test = "en test sak"
 const PORT = process.env.PORT;
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
@@ -30,4 +30,6 @@ const server = ((req, res) => {
     res.statusCode = 200;
     res.send("Try /getAllUsers or /createUser");
   });
+
+
 
