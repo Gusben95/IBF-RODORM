@@ -1,3 +1,11 @@
-.footerdiv {
-    color: rgb(240, 9, 9);
+.footerDiv {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+}
+
+#p {
+    color:rgb(163, 34, 34);
+    font-size: large;
+    font-weight: bold;
 }
