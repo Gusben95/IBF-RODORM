@@ -1,19 +1,39 @@
-const express = require("express");
-const rateLimit = require('express-rate-limit');
-const jwt = require("jsonwebtoken")
+// const rateLimit = require('express-rate-limit');
+// const jwt = require("jsonwebtoken")
 // const helmet = require("helmet");
 // const rateLimit = require('express-rate-limit');
+// app.use(helmet());
+const mysql = require('mysql');
+const { request } = require("express");
+const express = require("express");
 const app = express();
+var cors = require('cors')
 require('dotenv').config();
-const test = "en test sak"
+
 const PORT = process.env.PORT;
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_DATABASE = process.env.DB_DATABASE;
 const DB_PORT = process.env.DB_PORT;
+const db = mysql.createPool({
+  connectionLimit: 100,
+  host: DB_HOST,
+  user: DB_USER,
+  password: DB_PASSWORD,
+  database: DB_DATABASE,
+  port: DB_PORT,
+  multipleStatements: false
+});
+app.use(cors())
 
-// app.use(helmet());
+app.get('/products/:id', function (req, res, next) {
+  res.json({msg: 'This is CORS-enabled for all origins!'})
+})
+
+app.listen(80, function () {
+  console.log('CORS-enabled web server listening on port 80')
+})
 app.use(express.json())
 
 const server = ((req, res) => {
@@ -30,11 +50,25 @@ const server = ((req, res) => {
     res.send("Try /getAllUsers or /createUser");
   });
 
-
-  app.get('/createUser', async (req, res) => {
+  app.post('/createUser', (req, res) => {
     let account = req.body; 
-
+    console.log(account)
+    db.query(`INSERT INTO Users (username, password) VALUES (${account.USERNAME}, ${ account.PASSWORD})`, (err, result) => {
+      if (err) {
+        console.log(err)
+      }
+      else {
+      res.send(result);
+      res.statusCode = 200;
+    }
+    })
   })
+
+
+
+
+
+
 
 
 
