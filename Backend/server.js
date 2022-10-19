@@ -1,8 +1,8 @@
 const express = require("express");
-// const https = require('https');
+const rateLimit = require('express-rate-limit');
+const jwt = require("jsonwebtoken")
 // const helmet = require("helmet");
 // const rateLimit = require('express-rate-limit');
-
 const app = express();
 require('dotenv').config();
 const test = "en test sak"
@@ -25,11 +25,26 @@ const server = ((req, res) => {
     console.log(`Server running at 127.0.0.1:${PORT}/`);
   });
 
-
   app.get('/', (req, res) => {
     res.statusCode = 200;
     res.send("Try /getAllUsers or /createUser");
   });
 
 
+  app.get('/createUser', async (req, res) => {
+    let account = req.body; 
 
+  })
+
+
+
+
+//   Login limiter
+// ***********************  FUNKTIONELL KOD AVSTÄNGD UNDER UTVÄCKLINGSFAS *************************
+// Förhindrar upprepade loginförsök från samma IP-Address
+// const repeatedLoginlimiter = rateLimit({
+// 	windowMs: 10 * 60 * 1000,
+// 	max: 5,
+// 	standardHeaders: true,
+// 	legacyHeaders: false,
+// })
