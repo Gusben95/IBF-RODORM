@@ -13,6 +13,7 @@ const db = mysql.createConnection({
   user: DB_USER,
   password: DB_PASSWORD,
   port: DB_PORT,
+  insecureAuth: true 
 });
 
 //create database if it doesn't exist
