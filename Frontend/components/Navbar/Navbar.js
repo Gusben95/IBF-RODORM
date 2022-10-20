@@ -6,8 +6,8 @@ const Navbar = () => {
             <div className={styles.logo}>
             <h1 id={styles.txt}>IBF RÖDEORM</h1>
             <p id={styles.p}>Home</p>
-            <p id={styles.p}>Info</p>
-            <p id={styles.p}>About</p>
+            <p id={styles.p}>Information</p>
+            <p id={styles.p}>Laget</p>
             <p id={styles.p}>Profile</p>
             </div>
         </nav>
