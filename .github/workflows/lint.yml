@@ -1,0 +1,13 @@
+name: Run Lint Files
+on: ['push']
+jobs:
+  build_lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - with: 
+          files: /Frontend
+      - run: |
+              npm ci
+              npm run build
+              npm run lint
