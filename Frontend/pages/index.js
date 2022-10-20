@@ -1,8 +1,8 @@
 import styles from '../styles/Home.module.css'
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
-
-
+import { useState } from 'react';
+import Navbar from '../components/Navbar/Navbar';
+import Footer from '../components/Footer/Footer';
 
 export default function Home() {
   const usernameRef = useRef() 
@@ -25,8 +25,8 @@ export default function Home() {
     // console.log(passwordRef.current.value)
   }
   return (
-    <div className={styles.container}>
-     
+    <div>
+    <Navbar />
       <main className={styles.main}>
         <div>Inloggning</div>
         
@@ -41,7 +41,7 @@ export default function Home() {
         <button onClick={registerUser}>Registrera</button>
       </main>
 
-     
+     <Footer />
     </div>
   )
 }

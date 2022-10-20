@@ -1,0 +1,15 @@
+.logo {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#txt {
+    color: rgb(176, 6, 6);
+}
+
+#p {
+    color: rgb(176, 6, 6);
+}
