@@ -3,11 +3,18 @@
 // const helmet = require("helmet");
 // const rateLimit = require('express-rate-limit');
 // app.use(helmet());
+
+//från lektion 2022-10-20
+const database = require("./database")
+const jwt = require("jsonwebtoken")
+
+
 const mysql = require('mysql');
 const { request } = require("express");
 const express = require("express");
 const app = express();
-var cors = require('cors')
+var cors = require('cors');
+
 require('dotenv').config();
 
 const PORT = process.env.PORT;
@@ -27,6 +34,7 @@ const db = mysql.createPool({
 });
 app.use(cors())
 app.use(express.json())
+app.use(cors({credentials: true, origin: `http://localhost:3000`}));
 
 app.listen(80, function () {
   console.log('CORS-enabled web server listening on port 80')
@@ -49,7 +57,12 @@ const server = ((req, res) => {
   app.post('/createUser', (req, res) => {
     let account = req.body; 
     console.log(account)
-    db.query(`INSERT INTO Users (username, password) VALUES (${account.USERNAME}, ${ account.PASSWORD})`, (err, result) => {
+    // kolla om username finns redan
+    //bryt ut til andra filen
+    // kryptera lösen innan den går in i databas
+    let sql = "INSERT INTO Users (userId, username, password) VALUES (null, ?, ?);";
+    let query = mysql.format(sql, [account.username, account.password])
+    db.query(query, (err, result) => {
       if (err) {
         console.log(err)
       }
@@ -58,6 +71,19 @@ const server = ((req, res) => {
       res.statusCode = 200;
     }
     })
+  })
+
+app.post('/loginUser', async (req, res) => {
+  let account = req.body; 
+    console.log(account)
+    const result = await database.getUserByUsername(account.username)
+    .catch((err) => {
+      console.log(err)
+      res.send(err)
+    })
+    console.log(result)
+    // kolla om result.password == account.password
+    res.send("ok")
   })
 
 
