@@ -11,7 +11,7 @@ const Navbar = () => {
             <p id={styles.p}>Information</p>
             <p id={styles.p}>Laget</p>
             <p id={styles.p}>Profile</p>
-            <Modal/>
+            <Modal />
             </div>
         </nav>
     )

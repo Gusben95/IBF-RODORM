@@ -37,7 +37,7 @@ return (
             </div>
         )}
    
-    <button onClick = {() => {setShowModal(true)}}>Modal</button>
+    <button onClick = {() => {setShowModal(true)}}>Logga in</button>
     </div>
 ) 
 
