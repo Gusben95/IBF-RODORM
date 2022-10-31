@@ -1,22 +1,14 @@
-// const rateLimit = require('express-rate-limit');
-// const jwt = require("jsonwebtoken")
-// const helmet = require("helmet");
-// const rateLimit = require('express-rate-limit');
-// app.use(helmet());
 
-//från lektion 2022-10-20
 const database = require("./database")
 const jwt = require("jsonwebtoken")
-
-
+const bcrypt = require('bcrypt');
+const {comparePassword} = require('./Utils/bcrypt')
 const mysql = require('mysql');
 const { request } = require("express");
 const express = require("express");
 const app = express();
 var cors = require('cors');
-
 require('dotenv').config();
-
 const PORT = process.env.PORT;
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
@@ -54,14 +46,13 @@ const server = ((req, res) => {
     res.send("Try /getAllUsers or /createUser");
   });
 
-  app.post('/createUser', (req, res) => {
+  app.post('/createUser', async (req, res) => {
+
     let account = req.body; 
-    console.log(account)
-    // kolla om username finns redan
-    //bryt ut til andra filen
-    // kryptera lösen innan den går in i databas
+    let password = req.body.password; 
+    let hashPassword = await bcrypt.hash(password ,10); 
     let sql = "INSERT INTO Users (userId, username, password) VALUES (null, ?, ?);";
-    let query = mysql.format(sql, [account.username, account.password])
+    let query = mysql.format(sql, [account.username, hashPassword])
     db.query(query, (err, result) => {
       if (err) {
         console.log(err)
@@ -74,17 +65,55 @@ const server = ((req, res) => {
   })
 
 app.post('/loginUser', async (req, res) => {
-  let account = req.body; 
+    let account = req.body; 
     console.log(account)
-    const result = await database.getUserByUsername(account.username)
-    .catch((err) => {
-      console.log(err)
-      res.send(err)
-    })
-    console.log(result)
-    // kolla om result.password == account.password
-    res.send("ok")
+    let sql = `SELECT password FROM Users WHERE username=?`;
+    let query = mysql.format(sql, [account.username]);
+    db.query(query, async (err, result)  => { 
+      if(err){
+        console.log(err)
+        
+      }
+      if(result.length <= 0) {
+
+        console.log(result)  
+        console.log("User does not exist")
+      }
+     else {
+      const match = await comparePassword(account.password, result[0].password)
+      
+      if(match) {
+        console.log("Du är inloggad")
+        
+
+
+
+      }
+      else{console.log("Fel användare/lösenord")}
+
+    }
   })
+})
+
+    
+
+
+
+
+    // if (storedpass.length > 0) {
+    //   const result = await comparePassword(account.password, res[0].password)
+    // }
+    
+    // const result = await database.getUserByUsername(account.username)
+    
+  //   .catch((err) => {
+  //     console.log(err)
+  //     res.send(err)
+  //   })
+  //   console.log(result)
+  //   // kolla om result.password == account.password
+  //   res.send("ok")
+  // })
 
 
 
@@ -94,13 +123,3 @@ app.post('/loginUser', async (req, res) => {
 
 
 
-
-//   Login limiter
-// ***********************  FUNKTIONELL KOD AVSTÄNGD UNDER UTVÄCKLINGSFAS *************************
-// Förhindrar upprepade loginförsök från samma IP-Address
-// const repeatedLoginlimiter = rateLimit({
-// 	windowMs: 10 * 60 * 1000,
-// 	max: 5,
-// 	standardHeaders: true,
-// 	legacyHeaders: false,
-// })
