@@ -1,5 +1,6 @@
 
 const database = require("./database")
+const cookie = require("cookie-parser")
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt');
 const {comparePassword} = require('./Utils/bcrypt')
@@ -26,6 +27,7 @@ const db = mysql.createPool({
 });
 app.use(cors())
 app.use(express.json())
+app.use(cookie())
 app.use(cors({credentials: true, origin: `http://localhost:3000`}));
 
 app.listen(80, function () {
@@ -62,14 +64,16 @@ const server = ((req, res) => {
       res.statusCode = 200;
     }
     })
-  })
-
+  });
+const addMinutes = (minutes, date = new Date()) => {   return new Date(date.setMinutes(date.getMinutes() + minutes)); };
 app.post('/loginUser', async (req, res) => {
+  
     let account = req.body; 
     console.log(account)
     let sql = `SELECT password FROM Users WHERE username=?`;
     let query = mysql.format(sql, [account.username]);
     db.query(query, async (err, result)  => { 
+      
       if(err){
         console.log(err)
         
@@ -81,12 +85,17 @@ app.post('/loginUser', async (req, res) => {
       }
      else {
       const match = await comparePassword(account.password, result[0].password)
-      
       if(match) {
         console.log("Du är inloggad")
-        
+        let token = jwt.sign({username: account.username},
+          process.env.ACCESS_TOKEN_SECRET,
+          { expiresIn: '24h' // expires in 24 hours
 
-
+          }
+        );
+       
+        res.cookie('token', token, { httpOnly: true, secure: true, sameSite: "strict", expires: addMinutes(1440) }).
+        status(200).json({username: account.username, accesstoken: token})
 
       }
       else{console.log("Fel användare/lösenord")}

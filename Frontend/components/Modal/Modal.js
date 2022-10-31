@@ -6,9 +6,9 @@ const Modal = () => {
     const passwordRef = useRef()
     const [showModal, setShowModal] = useState(false); 
    
-    const loginUser = () =>  {
+    const loginUser = async () =>  {
     
-        fetch("http://127.0.0.1:4000/loginUser", {
+     const response = await fetch("http://127.0.0.1:4000/loginUser", {
             method: "POST",
             headers: {
               'Content-Type': 'application/json'
@@ -20,6 +20,8 @@ const Modal = () => {
                 password: passwordRef.current.value  
             })
         })
+        const data =  await response.json()
+        console.log(data)
       }
 
 return (
