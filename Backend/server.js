@@ -26,11 +26,17 @@ const db = mysql.createPool({
   port: DB_PORT,
   multipleStatements: false
 });
-app.use(cors())
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json())
 app.use(cookie())
-app.use(cors({credentials: true, origin: `http://localhost:3000`}));
+app.use(express.urlencoded({
+  extended: true
+}))
+app.use(cors({
+  credentials: true , 
+  origin: ["http://localhost:3000"]
+}));
+app.use(express.json())
+
+
 
 app.listen(80, function () {
   console.log('CORS-enabled web server listening on port 80')
@@ -68,7 +74,7 @@ const server = ((req, res) => {
     })
   });
 const addMinutes = (minutes, date = new Date()) => {   return new Date(date.setMinutes(date.getMinutes() + minutes)); };
-app.post('/loginUser', async (req, res, next) => {
+app.post('/loginUser', async (req, res) => {
   
     let account = req.body; 
     console.log(account)
@@ -81,7 +87,6 @@ app.post('/loginUser', async (req, res, next) => {
         
       }
       if(result.length <= 0) {
-
         console.log(result)  
         console.log("User does not exist")
       }
@@ -89,21 +94,25 @@ app.post('/loginUser', async (req, res, next) => {
       const match = await comparePassword(account.password, result[0].password)
       if(match) {
         console.log("Du är inloggad")
-        let token = jwt.sign({username: account.username},
+          let token = jwt.sign({username: account.username},
           process.env.ACCESS_TOKEN_SECRET,
           { expiresIn: '24h' // expires in 24 hours
 
           }
         );
-        
-        res.cookie('token', token, { httpOnly: true, secure: true, sameSite: "strict", expires: addMinutes(1440) }).
-        status(200).json({username: account.username, accesstoken: token})
+        res.cookie('token', token, { 
+          httpOnly: true, 
+          secure: true, 
+          sameSite: "strict", 
+          expires: addMinutes(1440)}); 
+
+        res.status(200).json({username: account.username, accesstoken: token})
 
       }
       else{console.log("Fel användare/lösenord")}
 
     }
-    next();
+   
   })
 })
 
