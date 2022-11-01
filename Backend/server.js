@@ -1,5 +1,6 @@
 
 const database = require("./database")
+const bodyParser = require('body-parser');
 const cookie = require("cookie-parser")
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt');
@@ -26,6 +27,7 @@ const db = mysql.createPool({
   multipleStatements: false
 });
 app.use(cors())
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 app.use(cookie())
 app.use(cors({credentials: true, origin: `http://localhost:3000`}));
@@ -66,7 +68,7 @@ const server = ((req, res) => {
     })
   });
 const addMinutes = (minutes, date = new Date()) => {   return new Date(date.setMinutes(date.getMinutes() + minutes)); };
-app.post('/loginUser', async (req, res) => {
+app.post('/loginUser', async (req, res, next) => {
   
     let account = req.body; 
     console.log(account)
@@ -93,7 +95,7 @@ app.post('/loginUser', async (req, res) => {
 
           }
         );
-       
+        
         res.cookie('token', token, { httpOnly: true, secure: true, sameSite: "strict", expires: addMinutes(1440) }).
         status(200).json({username: account.username, accesstoken: token})
 
@@ -101,6 +103,7 @@ app.post('/loginUser', async (req, res) => {
       else{console.log("Fel användare/lösenord")}
 
     }
+    next();
   })
 })
 
