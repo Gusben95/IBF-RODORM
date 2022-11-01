@@ -25,6 +25,22 @@ const Modal = () => {
         console.log(data)
       }
 
+      const registerUser = () =>  {
+    
+        fetch("http://127.0.0.1:4000/createUser", {
+            method: "POST",
+            headers: {
+              'Content-Type': 'application/json'
+              
+              // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body:JSON.stringify({
+                username: usernameRef.current.value,
+                password: passwordRef.current.value  
+            })
+        })
+      }
+
 return (
     <div>
         {showModal && 
@@ -36,7 +52,11 @@ return (
             <input type = "email" placeholder="Email" ref = {usernameRef}></input>
             <input type = "password" placeholder="Password" ref = {passwordRef}></input>
             <button type = "submit" onClick = {loginUser}>Logga in</button>
+            <div> 
+            <button type = "submit" onClick={registerUser}>Registrera</button>
             </div>
+            </div>
+            
             </div>
         )}
    

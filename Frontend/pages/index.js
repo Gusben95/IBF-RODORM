@@ -8,7 +8,7 @@ import Axios from 'axios';
 
 export default function Home() {
  
-  const usernameRef = useRef() 
+  /* const usernameRef = useRef() 
   const passwordRef = useRef()
   
 
@@ -27,16 +27,16 @@ export default function Home() {
             password: passwordRef.current.value  
         })
     })
-  }
+  } */
 
 
   return (
     <div>
     <Navbar />
       <main className={styles.main}>
-        <div>Inloggning</div>
+        <div>Klicka på modal för att registrera och logga</div>
         
-        <div>
+        {/* <div>
         <input placeholder='Username' type="text"ref={usernameRef} ></input>
         </div>
         
@@ -44,7 +44,7 @@ export default function Home() {
         <input placeholder='Password' type="password" ref={passwordRef}></input>
         
         </div>
-        <button onClick={registerUser}>Registrera</button>
+        <button onClick={registerUser}>Registrera</button> */}
         
         {/* <button onClick={ loginUser }>Login</button> */}
       </main>
