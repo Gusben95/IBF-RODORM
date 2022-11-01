@@ -57,13 +57,13 @@ return (
         ( 
             <div className = {styles.bg} onClick = {() => {setShowModal(false)}}>
             <div className = {styles.modal} onClick = {(e) => {e.stopPropagation()}}> 
-            <h1>Logga in</h1>
+            <h1 className = {styles.textLoggaIn}>Logga in</h1>
             <p className = {styles.exit} onClick = {() => {setShowModal(false)}}>X</p>
             <input type = "email" placeholder="Email" ref = {usernameRef}></input>
             <input type = "password" placeholder="Password" ref = {passwordRef}></input>
-            <button type = "submit" onClick = {loginUser}>Logga in</button>
+            <button className = {styles.loginBtn} type = "submit" onClick = {loginUser}>Logga in</button>
             <div> 
-            <button type = "submit" onClick={registerUser}>Registrera</button>
+            <button className = {styles.registerBtn} type = "submit" onClick={registerUser}>Registrera</button>
             </div>
             <div>
             <button>Logga ut</button>
