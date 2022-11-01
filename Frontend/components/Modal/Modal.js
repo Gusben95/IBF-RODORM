@@ -40,6 +40,17 @@ const Modal = () => {
         })
       }
 
+      /* const logoutUser = () => {
+        fetch("http://127.0.0.1:4000/logoutUser", {
+            method: "POST",
+            headers: {
+                'Content-type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            }
+        })
+    } */
+      
+    
 return (
     <div>
         {showModal && 
@@ -53,6 +64,9 @@ return (
             <button type = "submit" onClick = {loginUser}>Logga in</button>
             <div> 
             <button type = "submit" onClick={registerUser}>Registrera</button>
+            </div>
+            <div>
+            <button>Logga ut</button>
             </div>
             </div>
             
