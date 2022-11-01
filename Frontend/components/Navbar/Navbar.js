@@ -1,17 +1,30 @@
 import styles from "./Navbar.module.css"
 import Modal from "../Modal/Modal.js"; 
+import Link from 'next/link'
 
 const Navbar = () => {
    
+
     return (
         <nav>
             <div className={styles.logo}>
-            <h1 id={styles.txt}>IBF RÖDEORM</h1>
-            <p id={styles.p}>Home</p>
-            <p id={styles.p}>Information</p>
-            <p id={styles.p}>Laget</p>
-            <p id={styles.p}>Profile</p>
+            <ul className={styles.logo}>
+            <li className="liNav">
+                <Link href="/">Home</Link>
+            </li>
+            <li>
+                 <Link href="/laget">Laget</Link>
+            </li>
+            <li>
+                <Link href="/spelschema">Spelschema</Link>
+            </li>
+            <li>
+                <Link href="/profil">Profil</Link>
+            </li>
+            <li>
             <Modal />
+            </li>
+            </ul>
             </div>
         </nav>
     )
