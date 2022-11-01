@@ -104,6 +104,18 @@ app.post('/loginUser', async (req, res) => {
   })
 })
 
+/* app.post('/logoutUser', async (req, res) => {
+  if (req.session.loggedin) {
+    req.session.loggedin = false;
+    res.redirect('/');
+    console.log("logged out")
+}else{
+  // Not logged in
+  res.redirect('/');
+  console.log("Not logged in")
+}
+}) */
+
     
 
 
