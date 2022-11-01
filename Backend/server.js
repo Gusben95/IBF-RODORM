@@ -1,15 +1,16 @@
-// const rateLimit = require('express-rate-limit');
-// const jwt = require("jsonwebtoken")
-// const helmet = require("helmet");
-// const rateLimit = require('express-rate-limit');
-// app.use(helmet());
+
+const database = require("./database")
+const bodyParser = require('body-parser');
+const cookie = require("cookie-parser")
+const jwt = require("jsonwebtoken")
+const bcrypt = require('bcrypt');
+const {comparePassword} = require('./Utils/bcrypt')
 const mysql = require('mysql');
 const { request } = require("express");
 const express = require("express");
 const app = express();
-var cors = require('cors')
+var cors = require('cors');
 require('dotenv').config();
-
 const PORT = process.env.PORT;
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
@@ -25,8 +26,17 @@ const db = mysql.createPool({
   port: DB_PORT,
   multipleStatements: false
 });
-app.use(cors())
+app.use(cookie())
+app.use(express.urlencoded({
+  extended: true
+}))
+app.use(cors({
+  credentials: true , 
+  origin: ["http://localhost:3000"]
+}));
 app.use(express.json())
+
+
 
 app.listen(80, function () {
   console.log('CORS-enabled web server listening on port 80')
@@ -46,10 +56,14 @@ const server = ((req, res) => {
     res.send("Try /getAllUsers or /createUser");
   });
 
-  app.post('/createUser', (req, res) => {
+  app.post('/createUser', async (req, res) => {
+
     let account = req.body; 
-    console.log(account)
-    db.query(`INSERT INTO Users (username, password) VALUES (${account.USERNAME}, ${ account.PASSWORD})`, (err, result) => {
+    let password = req.body.password; 
+    let hashPassword = await bcrypt.hash(password ,10); 
+    let sql = "INSERT INTO Users (userId, username, password) VALUES (null, ?, ?);";
+    let query = mysql.format(sql, [account.username, hashPassword])
+    db.query(query, (err, result) => {
       if (err) {
         console.log(err)
       }
@@ -58,7 +72,81 @@ const server = ((req, res) => {
       res.statusCode = 200;
     }
     })
+  });
+const addMinutes = (minutes, date = new Date()) => {   return new Date(date.setMinutes(date.getMinutes() + minutes)); };
+app.post('/loginUser', async (req, res) => {
+  
+    let account = req.body; 
+    console.log(account)
+    let sql = `SELECT password FROM Users WHERE username=?`;
+    let query = mysql.format(sql, [account.username]);
+    db.query(query, async (err, result)  => { 
+      
+      if(err){
+        console.log(err)
+        
+      }
+      if(result.length <= 0) {
+        console.log(result)  
+        console.log("User does not exist")
+      }
+     else {
+      const match = await comparePassword(account.password, result[0].password)
+      if(match) {
+        console.log("Du är inloggad")
+          let token = jwt.sign({username: account.username},
+          process.env.ACCESS_TOKEN_SECRET,
+          { expiresIn: '24h' // expires in 24 hours
+
+          }
+        );
+        res.cookie('token', token, { 
+          httpOnly: true, 
+          secure: true, 
+          sameSite: "strict", 
+          expires: addMinutes(1440)}); 
+
+        res.status(200).json({username: account.username, accesstoken: token})
+
+      }
+      else{console.log("Fel användare/lösenord")}
+
+    }
+   
   })
+})
+
+/* app.post('/logoutUser', async (req, res) => {
+  if (req.session.loggedin) {
+    req.session.loggedin = false;
+    res.redirect('/');
+    console.log("logged out")
+}else{
+  // Not logged in
+  res.redirect('/');
+  console.log("Not logged in")
+}
+}) */
+
+    
+
+
+
+
+    // if (storedpass.length > 0) {
+    //   const result = await comparePassword(account.password, res[0].password)
+    // }
+    
+    // const result = await database.getUserByUsername(account.username)
+    
+  //   .catch((err) => {
+  //     console.log(err)
+  //     res.send(err)
+  //   })
+  //   console.log(result)
+  //   // kolla om result.password == account.password
+  //   res.send("ok")
+  // })
 
 
 
@@ -68,13 +156,3 @@ const server = ((req, res) => {
 
 
 
-
-//   Login limiter
-// ***********************  FUNKTIONELL KOD AVSTÄNGD UNDER UTVÄCKLINGSFAS *************************
-// Förhindrar upprepade loginförsök från samma IP-Address
-// const repeatedLoginlimiter = rateLimit({
-// 	windowMs: 10 * 60 * 1000,
-// 	max: 5,
-// 	standardHeaders: true,
-// 	legacyHeaders: false,
-// })

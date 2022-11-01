@@ -1,6 +1,8 @@
 import styles from "./Navbar.module.css"
+import Modal from "../Modal/Modal.js"; 
 
 const Navbar = () => {
+   
     return (
         <nav>
             <div className={styles.logo}>
@@ -9,6 +11,7 @@ const Navbar = () => {
             <p id={styles.p}>Information</p>
             <p id={styles.p}>Laget</p>
             <p id={styles.p}>Profile</p>
+            <Modal />
             </div>
         </nav>
     )

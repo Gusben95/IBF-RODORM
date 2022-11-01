@@ -1,4 +1,4 @@
-const Bcrypt = require('bcryptjs');
+const Bcrypt = require('bcrypt');
 require('dotenv').config();
 
 const saltRounds = process.env.SALT_ROUNDS;
