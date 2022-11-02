@@ -1,11 +1,14 @@
+import styles from '../styles/Spelschema.module.css';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
+
 
 const spelschema = () => {
     return (
         <div>
             <Navbar />
             Information
+        
         <div>
             <p>Spelschema och serie:</p>
             
@@ -13,15 +16,21 @@ const spelschema = () => {
             >Länk till div 1 22/23 Korpen Göteborg
             </a>
             </div>
-            
-            <div>
+        <div>
             <a href=
             "https://idrottonline.se/KorpforeningGoteborg-Korpen/Idrotter/Innebandy/ResultatSpelprogram"
             >Länk till seriehistorik
             </a>
         </div>
+
+        <div className="iFrameContainer">
+                <iframe className="iFrameContent" src="https://korpengoteborg.zoezi.se/member#/teamsports/division/96" scrolling="no"></iframe>
+        </div>
+        
+        
             <Footer />
         </div>
+        
     )
 }
 
