@@ -21,21 +21,21 @@ const db = mysql.createConnection({
 
 db.connect(async (err, connection) => {
   console.log('RUNNING CREATE TABLE SCRIPT');
-  let createUsersTable = `CREATE TABLE Users (
+  let createUsersTable = `CREATE TABLE IF NOT EXISTS Users (
     userId int NOT NULL AUTO_INCREMENT, 
     username varchar(45) NOT NULL, 
     password varchar(100) NOT NULL, 
     PRIMARY KEY (userId)) 
     ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
     `;
-  let createRolesTable = `CREATE TABLE Roles (
+  let createRolesTable = `CREATE TABLE IF NOT EXISTS Roles (
     roleId int NOT NULL AUTO_INCREMENT,
     rolename varchar(45) NOT NULL,
     PRIMARY KEY (roleId)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
     `;
 
-  let createUsersWithRoleTable = `CREATE TABLE UsersWithRoles (
+  let createUsersWithRoleTable = `CREATE TABLE IF NOT EXISTS UsersWithRoles (
     userId int NOT NULL,
     roleId int NOT NULL,
     CONSTRAINT FK_Role FOREIGN KEY (roleId) REFERENCES Roles(roleId),
@@ -43,8 +43,27 @@ db.connect(async (err, connection) => {
     ) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
     `;
 
+    //auto-increment är att man itne behöver specifiera id 
+    //255 standard, hur många tecken
+    //Not NUll är att det inte får vara inget
+    //kan använda firebase för integrera och få in bilder, blopstore
+    //altertable, PlayersTable, add column_name datatype:, kan lägga in urlen,
+    //admin bör kunna ta bort spelare, delete isf, finns i sql 
+    //ha.
+
+
+  let createPlayersTable = `CREATE TABLE IF NOT EXISTS Players(
+    id int NOT NULL AUTO_INCREMENT,
+    position varchar(255) NOT NULL,
+    playername varchar(255) NOT NULL,
+    playerinformation varchar(255),
+    PRIMARY KEY (id)
+  ) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `;
+
   db.query(createUsersTable, async (err) => {
     if (err) {
+      console.log(err)
       console.log(err)
       process.exit(1);
     }
@@ -61,7 +80,15 @@ db.connect(async (err, connection) => {
           process.exit(1);
         }
         console.log('TABLE CREATED!');
-        process.exit(0);
+
+        db.query(createPlayersTable, async (err) => {
+          if (err) {
+            console.log(err)
+            process.exit(1);
+          }
+          console.log('TABLE CREATED!');
+          process.exit(0);
+        });
       });
     });
   });
