@@ -102,7 +102,7 @@ app.post('/loginUser', async (req, res) => {
         );
         res.cookie('token', token, { 
           httpOnly: true, 
-          secure: false, 
+          secure: true, 
           sameSite: "strict", 
           expires: addMinutes(1440)}); 
 
