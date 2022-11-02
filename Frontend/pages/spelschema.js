@@ -23,8 +23,8 @@ const spelschema = () => {
             </a>
         </div>
 
-        <div className="iFrameContainer">
-                <iframe className="iFrameContent" src="https://korpengoteborg.zoezi.se/member#/teamsports/division/96" scrolling="no"></iframe>
+        <div className = {styles.iFrameContainer}>
+                <iframe className = {styles.iFrameContent} src="https://korpengoteborg.zoezi.se/member#/teamsports/division/96" scrolling="no"></iframe>
         </div>
         
         
