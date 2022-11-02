@@ -2,10 +2,10 @@ import styles from "./Modal.module.css"
 import { useState , useRef} from "react";
 import axios from "axios";
 
-const myAxios = axios.create({
-    baseURL: "http://127.0.0.1:4000",
+/*  const myAxios = axios.create({
+    baseURL: "http://localhost:4000",
     withCredentials: true,
-})
+}) */
 
 const Modal = () => { 
     const usernameRef = useRef() 
@@ -15,14 +15,9 @@ const Modal = () => {
 //gör en färdig för axios, googla baseurl 
 
     const loginUser = async () =>  {
-        const loginUserData= await myAxios.post("/loginUser", {
-        username: usernameRef.current.value,
-        password: passwordRef.current.value
-})
-console.log(loginUserData)
-};
+       
 
-     /* const response = await fetch("http://127.0.0.1:4000/loginUser", {
+      const response = await fetch("http://localhost:4000/loginUser", {
             method: "POST",
             credentials: 'include',
             headers: {
@@ -36,7 +31,7 @@ console.log(loginUserData)
         })
         const data =  await response.json()
         console.log(data)
-      } */
+    }
 
       const registerUser = () =>  {
     
