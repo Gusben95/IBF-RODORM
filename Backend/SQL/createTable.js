@@ -49,7 +49,7 @@ db.connect(async (err, connection) => {
     //kan använda firebase för integrera och få in bilder, blopstore
     //altertable, PlayersTable, add column_name datatype:, kan lägga in urlen,
     //admin bör kunna ta bort spelare, delete isf, finns i sql 
-    
+    //ha
 
 
   let createPlayersTable = `CREATE TABLE IF NOT EXISTS Players(
@@ -63,6 +63,7 @@ db.connect(async (err, connection) => {
 
   db.query(createUsersTable, async (err) => {
     if (err) {
+      console.log(err)
       console.log(err)
       process.exit(1);
     }
