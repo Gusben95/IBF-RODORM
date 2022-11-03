@@ -71,50 +71,62 @@ const server = ((req, res) => {
       res.send(result);
       res.statusCode = 200;
     }
-    })
   });
-const addMinutes = (minutes, date = new Date()) => {   return new Date(date.setMinutes(date.getMinutes() + minutes)); };
+})
+
+/* app.post("/api/register", jwtvalidator, async (req, res) => {
+  const username = req.body.username;
+  const email = req.body.email;
+  const rolename = req.body.role;
+  let password = req.body.password;
+
+  try {
+    if (!username || !password || !email) {
+      console.log("fyll i fälten");
+      return res.sendStatus(400);
+    }
+
+    const checkUser = await db.getUsersByEmail(email);
+    if (checkUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const userId = await db.createUser({
+      username: username,
+      hashedPassword: hashedPassword,
+      email: email,
+    });
+    //get role id by rolename
+    const role = await db.getRoleByRolename(rolename);
+    //assign role to user
+    await db.assignRoleToUser(role.roleId, userId);
+
+    res.status(200).json({
+      username: username,
+      email: email,
+      role: role.rolename,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.sendStatus(400);
+  }
+}); */
+
+
 app.post('/loginUser', async (req, res) => {
   
     let account = req.body; 
     console.log(account)
-    let sql = `SELECT password FROM Users WHERE username=?`;
-    let query = mysql.format(sql, [account.username]);
-    db.query(query, async (err, result)  => { 
-      
-      if(err){
-        console.log(err)
-        
-      }
-      if(result.length <= 0) {
-        console.log(result)  
-        console.log("User does not exist")
-      }
-     else {
-      const match = await comparePassword(account.password, result[0].password)
-      if(match) {
-        console.log("Du är inloggad")
-          let token = jwt.sign({username: account.username},
-          process.env.ACCESS_TOKEN_SECRET,
-          { expiresIn: '24h' // expires in 24 hours
-
-          }
-        );
-        res.cookie('token', token, { 
-          httpOnly: true, 
-          secure: true, 
-          sameSite: "strict", 
-          expires: addMinutes(1440)}); 
-
-        res.status(200).json({username: account.username, accesstoken: token})
-
-      }
-      else{console.log("Fel användare/lösenord")}
-
-    }
-   
+    database.getUserByUsername(account)
+    
+  
   })
-})
+
+
+
+
 
 /* app.post('/logoutUser', async (req, res) => {
   if (req.session.loggedin) {
