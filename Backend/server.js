@@ -1,31 +1,26 @@
-
-const database = require("./database")
+const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const cookie = require("cookie-parser")
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt');
-const {comparePassword} = require('./Utils/bcrypt')
-const mysql = require('mysql');
-const { request } = require("express");
 const express = require("express");
-const app = express();
 var cors = require('cors');
+
+const db = require('./database');
+const {comparePassword} = require('./Utils/bcrypt')
 require('dotenv').config();
+const { request } = require("express");
+const app = express();
+require('dotenv').config();
+const { getUserByUsername } = require('./database');
+
 const PORT = process.env.PORT;
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_DATABASE = process.env.DB_DATABASE;
 const DB_PORT = process.env.DB_PORT;
-const db = mysql.createPool({
-  connectionLimit: 100,
-  host: DB_HOST,
-  user: DB_USER,
-  password: DB_PASSWORD,
-  database: DB_DATABASE,
-  port: DB_PORT,
-  multipleStatements: false
-});
+
 app.use(cookie())
 app.use(express.urlencoded({
   extended: true
@@ -73,6 +68,8 @@ const server = ((req, res) => {
     }
   });
 })
+
+const addMinutes = (minutes, date = new Date()) => {   return new Date(date.setMinutes(date.getMinutes() + minutes)); };
 
 /* app.post("/api/register", jwtvalidator, async (req, res) => {
   const username = req.body.username;

@@ -46,14 +46,13 @@ db.connect(async (err, connection) => {
     //auto-increment är att man itne behöver specifiera id 
     //255 standard, hur många tecken
     //Not NUll är att det inte får vara inget
-    //kan använda firebase för integrera och få in bilder, blopstore
+    //kan använda firebase för integrera och få in bilder, blobstore
     //altertable, PlayersTable, add column_name datatype:, kan lägga in urlen,
     //admin bör kunna ta bort spelare, delete isf, finns i sql 
     //ha.
 
-
   let createPlayersTable = `CREATE TABLE IF NOT EXISTS Players(
-    id int NOT NULL AUTO_INCREMENT,
+    id int N,OT NULL AUTO_INCREMENT
     position varchar(255) NOT NULL,
     playername varchar(255) NOT NULL,
     playerinformation varchar(255),
