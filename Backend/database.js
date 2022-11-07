@@ -1,8 +1,4 @@
 const mysql = require("mysql");
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 const { syncBuiltinESMExports } = require("module");
 const jwt = require('jsonwebtoken');
 
@@ -28,7 +24,6 @@ const pool = mysql.createPool({
 //gör det enklare att hämta i server.js
 let db = {}
 
-<<<<<<< Updated upstream
 db.getAllUsers = () => {
   return new Promise((resolve, reject)=>{
     pool.query("SELECT * FROM Users", (err, result) => {
@@ -41,8 +36,6 @@ db.getAllUsers = () => {
   });
 };
 
-=======
->>>>>>> Stashed changes
 //create user till sql databasen
 db.createUser = (username, hashPassword) => {
   console.log("123")
@@ -53,13 +46,8 @@ db.createUser = (username, hashPassword) => {
       console.log(query)
       pool.query(query, (err, result) => {
         if (err) {
-<<<<<<< Updated upstream
           console.log(err)
           reject("Could not create user: SQL ERROR ", err)
-=======
-          console.log("Could not create user: SQL ERROR ", err)
-          reject(err)
->>>>>>> Stashed changes
         }else{
           resolve(result.insertId) 
         }
@@ -94,11 +82,7 @@ db.assignRoleToUser = (username, role) => {
     let query = mysql.format(sql, [username, role]);
     pool.query(query, (err, result) => {
       if (err) {
-<<<<<<< Updated upstream
         console.log("what", err)
-=======
-        console.log(err)
->>>>>>> Stashed changes
         reject("Could not assign role: SQL ERROR ", err);
       } else {
         resolve(result);
