@@ -1,7 +1,5 @@
 const mysql = require("mysql");
 
-const bcrypt = require('bcrypt');
-const {comparePassword} = require('./Utils/bcrypt')
 const { syncBuiltinESMExports } = require("module");
 
 require('dotenv').config();
@@ -24,19 +22,33 @@ const pool = mysql.createPool({
 });
 
 let db = {}
+
+db.getAllUsers = () => {
+  return new Promise((resolve, reject)=>{
+    pool.query("SELECT * FROM Users", (err, result) => {
+      if (err) {
+        reject("Could not get all users: SQL ERROR ",err);
+      }else {
+        resolve(result);
+      }
+    });
+  });
+};
+
 //create user till sql databasen
-db.createUser = (createUsers) => {
+db.createUser = (username, hashPassword) => {
+  console.log("123")
   return new Promise((resolve, reject) => {
-      console.log("inne i createuser", createUsers)
+      console.log("inne i create user")
       let sql = "INSERT INTO Users (userId, username, password) VALUES (null, ?, ?);";
-      let query = mysql.format(sql, [ username, password]);
+      let query = mysql.format(sql, [ username, hashPassword]);
       console.log(query)
-      db.query(query, (err, result) => {
+      pool.query(query, (err, result) => {
         if (err) {
           console.log(err)
-          reject(err)
+          reject("Could not create user: SQL ERROR ", err)
         }else{
-          resolve(result) 
+          resolve(result.insertId) 
         }
       }) 
     })
@@ -49,11 +61,12 @@ db.createUser = (createUsers) => {
         let sql = "SELECT * FROM Users WHERE username=?;";
         let query = mysql.format(sql, [username]);
         console.log(query)
-        db.query(query, (err, result) => {
+        pool.query(query, (err, result) => {
           if (err) {
             console.log(err)
-            reject(err)
+            reject("Could not get user: SQL ERROR ", err)
           }else{
+            console.log("databas", result)
             resolve(result) 
           }
         }) 
@@ -61,16 +74,18 @@ db.createUser = (createUsers) => {
     } 
 
     //assignar roll till användare dbquery
-db.assignRoleToUser = (roleId, userId) => {
+db.assignRoleToUser = (username, role) => {
+  console.log(123)
   return new Promise((resolve, reject) => {
     let sql = "INSERT INTO UsersWithRoles (userId, roleId) VALUES (?, ?)";
-    let query = mysql.format(sql, [userId, roleId]);
+    let query = mysql.format(sql, [username, role]);
     pool.query(query, (err, result) => {
       if (err) {
-        console.log(err)
-        reject(err);
+        console.log("what", err)
+        reject("Could not assign role: SQL ERROR ", err);
       } else {
         resolve(result);
+        console.log(woho)
       }
     });
   });

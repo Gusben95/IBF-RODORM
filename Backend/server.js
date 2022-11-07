@@ -7,35 +7,26 @@ const express = require("express");
 var cors = require('cors');
 
 const db = require('./database');
-const {comparePassword} = require('./Utils/bcrypt')
+const {comparePassword, hashPassword} = require('./Utils/bcrypt')
 require('dotenv').config();
 const { request } = require("express");
 const app = express();
 require('dotenv').config();
-const { getUserByUsername } = require('./database');
+
 
 const PORT = process.env.PORT;
-const DB_HOST = process.env.DB_HOST;
-const DB_USER = process.env.DB_USER;
-const DB_PASSWORD = process.env.DB_PASSWORD;
-const DB_DATABASE = process.env.DB_DATABASE;
-const DB_PORT = process.env.DB_PORT;
 
 app.use(cookie())
-app.use(express.urlencoded({
-  extended: true
-}))
+app.use(express.urlencoded({extended: true}))
 app.use(cors({
   credentials: true , 
   origin: ["http://localhost:3000"]
 }));
 app.use(express.json())
 
-
-
-app.listen(80, function () {
+/* app.listen(80, function () {
   console.log('CORS-enabled web server listening on port 80')
-})
+}) */
 
 const server = ((req, res) => {
     res.statusCode = 200;
@@ -53,23 +44,44 @@ const server = ((req, res) => {
 
   app.post('/createUser', async (req, res) => {
 
-    let account = req.body; 
+    let username = req.body.username; 
     let password = req.body.password; 
-    let hashPassword = await bcrypt.hash(password ,10); 
-    let sql = "INSERT INTO Users (userId, username, password) VALUES (null, ?, ?);";
-    let query = mysql.format(sql, [account.username, hashPassword])
-    db.query(query, (err, result) => {
-      if (err) {
-        console.log(err)
-      }
-      else {
-      res.send(result);
-      res.statusCode = 200;
-    }
-  });
-})
+    let hashPassword = await bcrypt.hash(password ,10);
 
-const addMinutes = (minutes, date = new Date()) => {   return new Date(date.setMinutes(date.getMinutes() + minutes)); };
+    if(!username || !password) {
+      res.status(500).json({message: "Username or password missing in request"});
+      return;
+    }
+
+    const userExists = await db.getUserByUsername(username)
+    .catch((err) => {
+      res.status(500).json({ message: "Error getting user to check if already exists "});
+    });
+    console.log("server.js", userExists)
+     if(userExists.length > 0) {
+      res.status(500).json({ message: "User already exists"}); 
+      return;
+    } 
+    console.log("hej")
+    const resultId = await db.createUser(username, hashPassword)
+    .catch((err) => {
+      res.status(500)
+    });
+console.log(resultId)
+    db.assignRoleToUser(resultId, 1000);
+    res.status(200).json({ username: username });
+  })
+
+/* const addMinutes = (minutes, date = new Date()) => {   return new Date(date.setMinutes(date.getMinutes() + minutes)); };
+
+app.post('/loginUser', async (req, res) => {
+  
+  let account = req.body; 
+  console.log(account)
+  database.getUserByUsername(account)
+  
+
+}) */
 
 /* app.post("/api/register", jwtvalidator, async (req, res) => {
   const username = req.body.username;
@@ -112,14 +124,6 @@ const addMinutes = (minutes, date = new Date()) => {   return new Date(date.setM
 }); */
 
 
-app.post('/loginUser', async (req, res) => {
-  
-    let account = req.body; 
-    console.log(account)
-    database.getUserByUsername(account)
-    
-  
-  })
 
 
 
@@ -160,7 +164,24 @@ app.post('/loginUser', async (req, res) => {
 
 
 
+ /* app.post('/createUser', async (req, res) => {
 
+    let account = req.body; 
+    let password = req.body.password; 
+    let hashPassword = await bcrypt.hash(password ,10);
+    
+    let sql = "INSERT INTO Users (userId, username, password) VALUES (null, ?, ?);";
+    let query = mysql.format(sql, [account.username, hashPassword])
+    db.query(query, (err, result) => {
+      if (err) {
+        console.log(err)
+      }
+      else {
+      res.send(result);
+      res.statusCode = 200;
+    }
+  });
+}) */
 
 
 
