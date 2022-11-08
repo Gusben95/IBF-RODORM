@@ -14,6 +14,7 @@ const pool = mysql.createConnection({
   host: DB_HOST,
   user: DB_USER,
   password: DB_PASSWORD,
+  database: DB_DATABASE,
   port: DB_PORT,
   insecureAuth: true,
   multipleStatements: true 
@@ -46,7 +47,6 @@ let users = `
 INSERT INTO Users (userId, username, password) VALUES (null, "User", "${pwdHashed}");
 INSERT INTO Users (userId, username, password) VALUES (null, "Admin", "${pwdHashed}");
 INSERT INTO Users (userId, username, password) VALUES (null, "BigBoss", "${pwdHashed}");
-
 `
 
 /* let user = `
@@ -93,7 +93,8 @@ INSERT INTO UsersWithRoles (UserId, RoleId) VALUES (2, 1000);
 INSERT INTO UsersWithRoles (UserId, RoleId) VALUES (2, 2000);
 INSERT INTO UsersWithRoles (UserId, RoleId) VALUES (3, 1000);
 INSERT INTO UsersWithRoles (UserId, RoleId) VALUES (3, 2000);
-INSERT INTO UsersWithRoles (UserId, RoleId) VALUES (3, 3000);`
+INSERT INTO UsersWithRoles (UserId, RoleId) VALUES (3, 3000);
+`
 
 pool.query(usersWithRolesMock, async (err) => {
     if (err) {
