@@ -76,21 +76,25 @@ db.createUser = (username, hashPassword) => {
 
     //assignar roll till användare dbquery
 db.assignRoleToUser = (username, role) => {
-  console.log(123)
+  
   return new Promise((resolve, reject) => {
     let sql = "INSERT INTO UsersWithRoles (userId, roleId) VALUES (?, ?)";
     let query = mysql.format(sql, [username, role]);
     pool.query(query, (err, result) => {
       if (err) {
-        console.log("what", err)
+        console.log(err)
         reject("Could not assign role: SQL ERROR ", err);
       } else {
         resolve(result);
-        console.log(woho)
       }
     });
   });
 };
+
+db.getUserByRole = (username, role) => {
+  let sql = "SELECT * FROM UsersWithRoles (userId, roleId) VALUES (?, ?)";
+  let query = mysql.format(sql, [username, role])
+}
 
   /* const getUserByUsername = (account) => {
   let sql = `SELECT password FROM Users WHERE username=?`;
