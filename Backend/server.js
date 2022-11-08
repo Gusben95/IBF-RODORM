@@ -42,6 +42,9 @@ const server = ((req, res) => {
     res.send("Try /getAllUsers or /createUser");
   });
 
+  //skapa användare,
+  //innerhåller: ej skapa likadana konton. Assign roll till användare. 
+
   app.post('/createUser', async (req, res) => {
 
     let username = req.body.username; 
@@ -71,6 +74,80 @@ console.log(resultId)
     db.assignRoleToUser(resultId, 1000);
     res.status(200).json({ username: username });
   })
+
+  //logga in
+  //innehåller om längd är mindre än eller = noll return, 
+  //jämför lösenord, fixa token
+  const addMinutes = (minutes, date = new Date()) => {   return new Date(date.setMinutes(date.getMinutes() + minutes)); };
+  app.post('/loginUser', async (req, res) => {
+    let account = req.body; 
+    let result = await db.getUserByUsername(account.username)
+    .catch((err) => {
+      res.send("error")
+    })
+    
+    if(result.length <= 0) {
+      res.status(500).json({ message: "Error User not found"});
+      return; 
+    } 
+    else {
+    const match = await comparePassword(account.password, result[0].password)
+    if(match) {
+      console.log("Du är inloggad")
+        let token = jwt.sign({username: account.username},
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: '24h' // expires in 24 hours
+
+        }
+      );
+      res.cookie('token', token, { 
+        httpOnly: true, 
+        secure: true, 
+        sameSite: "strict", 
+        expires: addMinutes(1440)}); 
+
+      res.status(200).json({username: account.username, accesstoken: token})
+
+    }
+    else{console.log("Fel användare/lösenord")}
+    }
+  })
+
+ /* const getUserByUsername = (account) => {
+  let sql = `SELECT password FROM Users WHERE username=?`;
+  let query = mysql.format(sql, [account.username]);
+  db.query(query, async (err, result)  => { 
+    
+    if(err){
+      console.log(err) }
+    if(result.length <= 0) {
+      console.log(result)  
+      console.log("User does not exist")
+    }
+   else {
+    const match = await comparePassword(account.password, result[0].password)
+    if(match) {
+      console.log("Du är inloggad")
+        let token = jwt.sign({username: account.username},
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: '24h' // expires in 24 hours
+
+        }
+      );
+      res.cookie('token', token, { 
+        httpOnly: true, 
+        secure: true, 
+        sameSite: "strict", 
+        expires: addMinutes(1440)}); 
+
+      res.status(200).json({username: account.username, accesstoken: token})
+
+    }
+    else{console.log("Fel användare/lösenord")}
+
+  }
+  }
+  )}  */
 
 /* const addMinutes = (minutes, date = new Date()) => {   return new Date(date.setMinutes(date.getMinutes() + minutes)); };
 
