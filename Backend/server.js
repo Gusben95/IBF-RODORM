@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt');
 const express = require("express");
 var cors = require('cors');
-
+const {checkTokenAll , checkTokenAdminBoss, checkTokenBoss} = require('./middleware/jwt')
 const db = require('./database');
 const {comparePassword, hashPassword} = require('./Utils/bcrypt')
 require('dotenv').config();
@@ -94,11 +94,15 @@ console.log(resultId)
     const match = await comparePassword(account.password, result[0].password)
     if(match) {
       console.log("Du är inloggad")
-        let token = jwt.sign({username: account.username},
+        let token = jwt.sign({
+          username: account.username,
+          role:  result[0].rolename
+        },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: '24h' // expires in 24 hours
 
         }
+       
       );
       res.cookie('token', token, { 
         httpOnly: true, 
@@ -112,6 +116,9 @@ console.log(resultId)
     else{console.log("Fel användare/lösenord")}
     }
   })
+  app.post('/admin', checkTokenAll, async (req, res) => {
+    res.json("hej")
+  });
 
  /* const getUserByUsername = (account) => {
   let sql = `SELECT password FROM Users WHERE username=?`;

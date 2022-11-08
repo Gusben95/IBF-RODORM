@@ -59,7 +59,8 @@ db.createUser = (username, hashPassword) => {
   db.getUserByUsername = (username) => {
     return new Promise((resolve, reject) => {
         console.log("inne i getusers", username)
-        let sql = "SELECT * FROM Users WHERE username=?;";
+        // SQL Mumbo - jumbo  below
+        let sql = "SELECT * FROM Users INNER JOIN UsersWithRoles ON Users.UserId = UsersWithRoles.UserId INNER JOIN Roles ON UsersWithRoles.RoleId = Roles.RoleId WHERE username=?" 
         let query = mysql.format(sql, [username]);
         console.log(query)
         pool.query(query, (err, result) => {
@@ -91,10 +92,10 @@ db.assignRoleToUser = (username, role) => {
   });
 };
 
-db.getUserByRole = (username, role) => {
-  let sql = "SELECT * FROM UsersWithRoles (userId, roleId) VALUES (?, ?)";
-  let query = mysql.format(sql, [username, role])
-}
+// db.getUserByUsername = (username) => {
+//   let sql = "SELECT * FROM UsersWithRoles (userId, roleId) VALUES (?, ?)";
+//   let query = mysql.format(sql, [username, role])
+// }
 
   /* const getUserByUsername = (account) => {
   let sql = `SELECT password FROM Users WHERE username=?`;
