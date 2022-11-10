@@ -89,10 +89,9 @@ pool.query(userBigBoss, async (err) => {
 
 let usersWithRolesMock = `
 INSERT INTO UsersWithRoles (UserId, RoleId) VALUES (1, 1000);
-INSERT INTO UsersWithRoles (UserId, RoleId) VALUES (2, 1000);
+
 INSERT INTO UsersWithRoles (UserId, RoleId) VALUES (2, 2000);
-INSERT INTO UsersWithRoles (UserId, RoleId) VALUES (3, 1000);
-INSERT INTO UsersWithRoles (UserId, RoleId) VALUES (3, 2000);
+
 INSERT INTO UsersWithRoles (UserId, RoleId) VALUES (3, 3000);
 `
 
