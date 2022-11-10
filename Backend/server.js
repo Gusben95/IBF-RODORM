@@ -127,25 +127,18 @@ app.post("/admin", checkTokenAll, async (req, res) => {
   res.json("hej");
 });
 
-app.get("/isLoggedIn", async (req, res) => {
+app.get("/isLoggedIn", checkTokenAll, async (req, res) => {
   let token = req.cookies.token;
-  if (!token) {
-    res.status(400).end();
-    return;
-  }
 
-  const userVerifiedToken = await db.getUserByToken(token).catch((err) => {
+  const wholeuser = await db.getUserByToken(token).catch((err) => {
     console.log("Could not get token", err);
     res.status(400).send("error");
     res.end();
   });
-  if (userVerifiedToken) {
-    res.status(200).end();
-    return;
-  } else {
-    res.status(400).end();
-    return;
-  }
+  let user = wholeuser[0]
+  user.password = ""
+  
+  res.status(200).json(user)
 });
 
 /* const getUserByUsername = (account) => {
