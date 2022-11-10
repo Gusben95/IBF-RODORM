@@ -30,9 +30,37 @@ const Modal = () => {
             })
         })
         const data =  await response.json()
-        console.log(data)
+        console.log(data) 
     }
 
+
+    async function loggedIn () {
+   const response = await fetch("http://localhost:4000/isLoggedIn", {
+      method: "GET",
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            }
+    })
+    if (response.status == 200) {
+    console.log("bajs")
+    
+  }else if (response.status == 400) {
+    console.log("bajs2")
+  }
+}
+
+  /*   module.exports = {
+      async redirects() {
+        return [
+          {
+            source: '/about',
+            destination: '/',
+            permanent: true,
+          },
+        ]
+      },
+    } */
       const registerUser = () =>  {
     
         fetch("http://127.0.0.1:4000/createUser", {
@@ -98,6 +126,7 @@ return (
             <div>
             <button>Logga ut</button>
             </div>
+            <button onClick = {loggedIn}>Testa</button>
             </div>
             
             </div>

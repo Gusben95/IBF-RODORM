@@ -5,9 +5,9 @@ const laget = () => {
     return (
         
         <div>
-            <Navbar />
-            Info
-            <Footer />
+            
+            <p>Info</p>
+            
             </div>
     )
 }

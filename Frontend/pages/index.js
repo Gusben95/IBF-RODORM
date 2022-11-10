@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
 import Axios from 'axios';
 
+
 export default function Home() {
  
   /* const usernameRef = useRef() 
@@ -32,7 +33,7 @@ export default function Home() {
 
   return (
     <div>
-    <Navbar />
+    
       <main className={styles.main}>
         <div>Klicka på modal för att registrera och logga</div>
         
@@ -49,7 +50,7 @@ export default function Home() {
         {/* <button onClick={ loginUser }>Login</button> */}
       </main>
 
-     <Footer />
+     
     </div>
   )
 }

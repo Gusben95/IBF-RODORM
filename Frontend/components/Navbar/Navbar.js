@@ -1,9 +1,29 @@
 import styles from "./Navbar.module.css"
 import Modal from "../Modal/Modal.js"; 
 import Link from 'next/link'
+import {useEffect} from "react";
 
 const Navbar = () => {
    
+    useEffect (() => {
+        async function loggedIn () {
+        const response = await fetch("http://localhost:4000/isLoggedIn", {
+           method: "GET",
+                 credentials: 'include',
+                 headers: {
+                   'Content-Type': 'application/json',
+                 }
+         })
+         if (response.status == 200) {
+         console.log("bajs")
+         
+       }else if (response.status == 400) {
+         console.log("bajs2")
+       }
+     }
+     loggedIn();
+}, [])
+
 
     return (
         <nav>

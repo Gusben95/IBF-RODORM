@@ -11,6 +11,7 @@ const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_DATABASE = process.env.DB_DATABASE;
 const DB_PORT = process.env.DB_PORT;
 
+
 const pool = mysql.createPool({
   connectionLimit: 100,
   host: DB_HOST,
@@ -85,6 +86,23 @@ db.assignRoleToUser = (username, role) => {
       if (err) {
         console.log(err)
         reject("Could not assign role: SQL ERROR ", err);
+      } else {
+        resolve(result);
+      }
+    });
+  });
+};
+
+db.getUserByToken = (token) => {
+  
+  return new Promise((resolve, reject) => {
+    const username = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET).username;
+    let sql = "SELECT * FROM Users WHERE username = ?";
+    let query = mysql.format(sql, [username]);
+    pool.query(query, (err, result) => {
+      if (err) {
+        console.log(err)
+        reject("Could fetch username/token: SQL ERROR ", err);
       } else {
         resolve(result);
       }

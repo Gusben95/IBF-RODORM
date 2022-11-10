@@ -6,8 +6,8 @@ import Footer from '../components/Footer/Footer';
 const spelschema = () => {
     return (
         <div>
-            <Navbar />
-            Information
+        
+            <p>Information</p>
         
         <div>
             <p>Spelschema och serie:</p>
@@ -28,7 +28,7 @@ const spelschema = () => {
         </div>
         
         
-            <Footer />
+        
         </div>
         
     )
