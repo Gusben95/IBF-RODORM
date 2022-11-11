@@ -1,0 +1,44 @@
+[
+  {
+    "playersId": 0,
+    "position": "forward/back",
+    "playername": "Andreas Olsson",
+    "playerinformation": "<p>Väger för mycket men har fortfarande tekniken kvar. Ofta skadad.</p>",
+    "images": ["https://images2.imgbox.com/ea/1c/cFfcitTj_o.jpg"]
+  },
+  {
+    "playersId": 1,
+    "position": "forward",
+    "playername": "Philip Rydqvist",
+    "playerinformation": "<p>bla<p>",
+    "images": ["https://images2.imgbox.com/ea/1c/cFfcitTj_o.jpg"]
+  },
+  {
+    "playersId": 2,
+    "position": "forward",
+    "playername": "Anton Nordin",
+    "playerinformation": "<p>bla<p>",
+    "images": ["https://images2.imgbox.com/ea/1c/cFfcitTj_o.jpg"]
+  },
+  {
+    "playersId": 3,
+    "position": "forward",
+    "playername": "Alban Ceku",
+    "playerinformation": "<p>bla<p>",
+    "images": ["https://images2.imgbox.com/ea/1c/cFfcitTj_o.jpg"]
+  },
+  {
+    "playersId": 4,
+    "position": "back",
+    "playername": "Henrik Nilsson",
+    "playerinformation": "<p>bla<p>",
+    "images": ["https://images2.imgbox.com/ea/1c/cFfcitTj_o.jpg"]
+  },
+  {
+    "playersId": 5,
+    "position": "center",
+    "playername": "Johan Bjelkenfors",
+    "playerinformation": "<p>bla<p>",
+    "images": ["https://images2.imgbox.com/ea/1c/cFfcitTj_o.jpg"]
+  }
+]

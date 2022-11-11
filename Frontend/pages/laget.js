@@ -10,10 +10,11 @@ const laget = () => {
         <div>
             {/* ta understa länken på imgbox i Html */}
           <Image
-            src='https://images2.imgbox.com/76/6d/wspuEbRd_o.jpg'
+            src='https://images2.imgbox.com/ea/1c/cFfcitTj_o.jpg'
             alt='/'
-            width='192'
-            height='288'
+            width='300'
+            height='200'
+            
             priority
           />
         </div>
@@ -23,3 +24,4 @@ const laget = () => {
 };
 
 export default laget;
+

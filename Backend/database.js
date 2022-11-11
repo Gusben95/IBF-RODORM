@@ -93,6 +93,7 @@ db.assignRoleToUser = (username, role) => {
   });
 };
 
+//hämta användare med token
 db.getUserByToken = (token) => {
   
   return new Promise((resolve, reject) => {
@@ -109,6 +110,20 @@ db.getUserByToken = (token) => {
     });
   });
 };
+
+//players querys 
+db.getAllPlayers = () => {
+  return new Promise((resolve, reject) => {
+    pool.query("SELECT * FROM Players", (err, result) => {
+      if (err) {
+        console.log(err)
+        reject("Could not fetch players: SQL ERROR", err);
+      } else {
+        resolve(result); 
+      }
+    })
+  })
+}
 
 // db.getUserByUsername = (username) => {
 //   let sql = "SELECT * FROM UsersWithRoles (userId, roleId) VALUES (?, ?)";

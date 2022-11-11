@@ -141,6 +141,14 @@ app.get("/isLoggedIn", checkTokenAll, async (req, res) => {
   res.status(200).json(user)
 });
 
+app.get("/players", async (req,res) => {
+  const playerInfo = await db.getAllPlayers().catch((err) => {
+    res.status(400).send("error");
+    res.end();
+  });
+  res.status(200).json(playerInfo)
+})
+
 /* const getUserByUsername = (account) => {
   let sql = `SELECT password FROM Users WHERE username=?`;
   let query = mysql.format(sql, [account.username]);
