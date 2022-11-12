@@ -1,3 +1,4 @@
+
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const cookie = require("cookie-parser");
@@ -137,24 +138,30 @@ app.get("/isLoggedIn", checkTokenAll, async (req, res) => {
     res.end();
     return;
   });
-  let user = wholeuser[0]
-  user.password = ""
-  
-  res.status(200).json(user)
+  let user = wholeuser[0];
+  user.password = "";
+
+  res.status(200).json(user);
 });
 
 app.post("/loggOut", async (req, res) => {
-  res.clearCookie("token").status(200).json({ message: "Logged out" });
-  console.log("clared token")  
-});
+  return res 
+    .clearCookie("token", { sameSite: "none", secure: true })
+    .status(200)
+    .json({ message: "Logged out" });
+    
+    
+  console.log("clared token");  
+  });
+
 
 app.get("/players", async (req, res) => {
   const playerInfo = await db.getAllPlayers().catch((err) => {
     res.status(400).send("error");
     res.end();
   });
-  res.status(200).json(playerInfo)
-})
+  res.status(200).json(playerInfo);
+});
 
 /* const getUserByUsername = (account) => {
   let sql = `SELECT password FROM Users WHERE username=?`;

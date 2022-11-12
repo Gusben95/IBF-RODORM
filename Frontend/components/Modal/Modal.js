@@ -39,23 +39,23 @@ const Modal = () => {
       },
     });
     if (response.status == 200) {
-      console.log("bajs");
     } else if (response.status == 400) {
-      console.log("bajs2");
     }
   }
 
   const loggOut = () => {
-    fetch("http://127.0.0.1:4000/loggOut", {
+    fetch("http://localhost:4000/loggOut", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
-      }
-    })
-  }
+      },
+    });
+    
+  };
 
   const registerUser = () => {
-    fetch("http://127.0.0.1:4000/createUser", {
+    fetch("http://localhost:4000/createUser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -67,7 +67,7 @@ const Modal = () => {
         password: passwordRef.current.value,
       }),
     });
-  };
+  }
   /* 
       const registerChef = async () => {
         e.preventDefault();
