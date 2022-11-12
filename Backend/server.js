@@ -123,6 +123,7 @@ app.post("/loginUser", async (req, res) => {
     }
   }
 });
+
 app.post("/admin", checkTokenAll, async (req, res) => {
   res.json("hej");
 });
@@ -134,6 +135,7 @@ app.get("/isLoggedIn", checkTokenAll, async (req, res) => {
     console.log("Could not get token", err);
     res.status(400).send("error");
     res.end();
+    return;
   });
   let user = wholeuser[0]
   user.password = ""
@@ -141,7 +143,12 @@ app.get("/isLoggedIn", checkTokenAll, async (req, res) => {
   res.status(200).json(user)
 });
 
-app.get("/players", async (req,res) => {
+app.post("/loggOut", async (req, res) => {
+  res.clearCookie("token").status(200).json({ message: "Logged out" });
+  console.log("clared token")  
+});
+
+app.get("/players", async (req, res) => {
   const playerInfo = await db.getAllPlayers().catch((err) => {
     res.status(400).send("error");
     res.end();
