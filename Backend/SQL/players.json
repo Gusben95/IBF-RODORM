@@ -1,44 +1,44 @@
 [
   {
     "playersId": 0,
-    "position": "forward/back",
+    "position": "<p>forward/back</p>",
     "playername": "Andreas Olsson",
     "playerinformation": "<p>Väger för mycket men har fortfarande tekniken kvar. Ofta skadad.</p>",
-    "images": ["https://images2.imgbox.com/ea/1c/cFfcitTj_o.jpg"]
+    "images": ["https://thumbs2.imgbox.com/41/e5/hBY2sL71_t.png"]
   },
   {
     "playersId": 1,
-    "position": "forward",
+    "position": "<p>forward/center</p>",
     "playername": "Philip Rydqvist",
-    "playerinformation": "<p>bla<p>",
-    "images": ["https://images2.imgbox.com/ea/1c/cFfcitTj_o.jpg"]
+    "playerinformation": "<p>bla</p>",
+    "images": ["https://thumbs2.imgbox.com/83/f2/EYvgyzBX_t.png"]
   },
   {
     "playersId": 2,
-    "position": "forward",
+    "position": "<p>forward</p>",
     "playername": "Anton Nordin",
-    "playerinformation": "<p>bla<p>",
-    "images": ["https://images2.imgbox.com/ea/1c/cFfcitTj_o.jpg"]
+    "playerinformation": "<p>bla</p>",
+    "images": ["https://images2.imgbox.com/c0/94/5e7jIOGt_o.png"]
   },
   {
     "playersId": 3,
-    "position": "forward",
+    "position": "<p>forward</p>",
     "playername": "Alban Ceku",
-    "playerinformation": "<p>bla<p>",
-    "images": ["https://images2.imgbox.com/ea/1c/cFfcitTj_o.jpg"]
+    "playerinformation": "<p>bla</p>",
+    "images": ["https://thumbs2.imgbox.com/bb/e8/BO7mKUj9_t.png"]
   },
   {
     "playersId": 4,
-    "position": "back",
-    "playername": "Henrik Nilsson",
-    "playerinformation": "<p>bla<p>",
-    "images": ["https://images2.imgbox.com/ea/1c/cFfcitTj_o.jpg"]
+    "position": "<p>back</p>",
+    "playername": "Marcus Börje Alvefelt",
+    "playerinformation": "<p>bla</p>",
+    "images": ["https://thumbs2.imgbox.com/fd/a5/yh7R6jcz_t.png"]
   },
   {
     "playersId": 5,
-    "position": "center",
+    "position": "<p>center</p>",
     "playername": "Johan Bjelkenfors",
-    "playerinformation": "<p>bla<p>",
-    "images": ["https://images2.imgbox.com/ea/1c/cFfcitTj_o.jpg"]
+    "playerinformation": "<p>bla</p>",
+    "images": ["https://thumbs2.imgbox.com/5f/70/DconcUbz_t.png"]
   }
 ]
