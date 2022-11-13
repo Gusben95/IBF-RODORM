@@ -151,7 +151,7 @@ app.post("/loggOut", async (req, res) => {
     .json({ message: "Logged out" });
     
     
-  console.log("clared token");  
+  
   });
 
 
