@@ -3,10 +3,7 @@ import { useState, useRef } from "react";
 import axios from "axios";
 import {useRouter} from "next/router";
 
-/*  const myAxios = axios.create({
-    baseURL: "http://localhost:4000",
-    withCredentials: true,
-}) */
+
 
 const Modal = () => {
   const usernameRef = useRef();
