@@ -49,7 +49,7 @@ app.get("/", (req, res) => {
   res.send("Try /getAllUsers or /createUser");
 });
 
-//skapa användare,
+//skapa användare,asdasdasdda
 //innerhåller: ej skapa likadana konton. Assign roll till användare.
 
 app.post("/createUser", async (req, res) => {
