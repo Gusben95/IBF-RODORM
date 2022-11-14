@@ -46,8 +46,6 @@ const Modal = () => {
     });
     console.log(response.status); 
     if (response.status == 200) {
-      
-      return 
     } else if (response.status == 400) {
     }
   }
