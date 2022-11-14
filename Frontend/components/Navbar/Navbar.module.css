@@ -2,11 +2,11 @@
     background-color: white;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    
     align-items: center;
     color: rgb(176, 6, 6);
     list-style: none;
-    gap: 10em;
+    gap: 5rem;
 }
 
 #txt {
@@ -16,4 +16,10 @@
 .liNav {
     color: rgb(176, 6, 6);
     
+}
+
+#iconRorm {
+    background-color: white;
+    height: 500px; 
+    width: 500px;
 }
