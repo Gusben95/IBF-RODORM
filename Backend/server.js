@@ -163,6 +163,35 @@ app.get("/players", async (req, res) => {
   res.status(200).json(playerInfo);
 });
 
+
+app.get("/getusers", async (req, res) => {
+  const userInfo = await db.getAllUsers().catch((err) => {
+    res.status(400).send("error");
+    logger.error(err);
+    res.end();
+  })
+  res.status(200).json(userInfo);
+})
+
+app.post("/removeuser", async (req, res) => {
+  let user = req.body;
+  console.log("removeuser id = ", user)
+  const deluser = await db.deleteUser(user).catch((err) => { 
+    res.send("error")
+});
+})
+
+
+
+
+
+
+
+
+
+
+
+
 /* const getUserByUsername = (account) => {
   let sql = `SELECT password FROM Users WHERE username=?`;
   let query = mysql.format(sql, [account.username]);

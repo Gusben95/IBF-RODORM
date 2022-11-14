@@ -125,6 +125,38 @@ db.getAllPlayers = () => {
   })
 }
 
+
+db.deleteUser = (userId) => {
+  return new Promise((resolve, reject)=>{
+    // remove all roles in usersWithRoles for this user
+    let sqlUsersWithRoles = "DELETE FROM UsersWithRoles WHERE userId=?;";
+    let queryUsersWithRoles = mysql.format(sqlUsersWithRoles, [userId]);
+    pool.query(queryUsersWithRoles, (err, result) => {
+      if (err) {
+        reject("Could not delete user: SQL ERROR ",err);
+      }else {
+        // remove user from Users table
+        let sqlUsers = "DELETE FROM Users WHERE userId=?;";
+        let queryUsers = mysql.format(sqlUsers, [userId]);
+        pool.query(queryUsers, (err, result) => {
+          if (err) {
+            reject("Could not delete user: SQL ERROR ",err);
+          }else {
+            resolve(result);
+          }
+        });
+      }
+    });
+  });
+};
+
+
+
+
+
+
+
+
 // db.getUserByUsername = (username) => {
 //   let sql = "SELECT * FROM UsersWithRoles (userId, roleId) VALUES (?, ?)";
 //   let query = mysql.format(sql, [username, role])
