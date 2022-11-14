@@ -1,5 +1,6 @@
-
+const logger = require("./logger/winston");
 const mysql = require("mysql");
+const rateLimit = require ('express-rate-limit')
 const bodyParser = require("body-parser");
 const cookie = require("cookie-parser");
 const jwt = require("jsonwebtoken");
@@ -73,7 +74,6 @@ app.post("/createUser", async (req, res) => {
     res.status(500).json({ message: "User already exists" });
     return;
   }
-  console.log("hej");
   const resultId = await db.createUser(username, hashPassword).catch((err) => {
     res.status(500);
   });
@@ -117,7 +117,6 @@ app.post("/loginUser", async (req, res) => {
         sameSite: "strict",
         expires: addMinutes(1440),
       });
-
       res.status(200).json({ username: account.username, accesstoken: token });
     } else {
       console.log("Fel användare/lösenord");
@@ -142,6 +141,7 @@ app.get("/isLoggedIn", checkTokenAll, async (req, res) => {
   user.password = "";
 
   res.status(200).json(user);
+  logger.error(err);
 });
 
 app.post("/loggOut", async (req, res) => {
@@ -150,7 +150,6 @@ app.post("/loggOut", async (req, res) => {
     .status(200)
     .json({ message: "Logged out" });
     
-    
   
   });
 
@@ -158,6 +157,7 @@ app.post("/loggOut", async (req, res) => {
 app.get("/players", async (req, res) => {
   const playerInfo = await db.getAllPlayers().catch((err) => {
     res.status(400).send("error");
+    logger.error(err);
     res.end();
   });
   res.status(200).json(playerInfo);

@@ -1,6 +1,7 @@
 import styles from "./Modal.module.css";
 import { useState, useRef } from "react";
 import axios from "axios";
+import {useRouter} from "next/router";
 
 /*  const myAxios = axios.create({
     baseURL: "http://localhost:4000",
@@ -11,7 +12,7 @@ const Modal = () => {
   const usernameRef = useRef();
   const passwordRef = useRef();
   const [showModal, setShowModal] = useState(false);
-
+  const router = useRouter();
   //gör en färdig för axios, googla baseurl
 
   const loginUser = async () => {
@@ -26,8 +27,13 @@ const Modal = () => {
         password: passwordRef.current.value,
       }),
     });
+    if (response.status === 200){
+      router.push('/profil');
+      return
+    }
     const data = await response.json();
     console.log(data);
+     
   };
 
   async function loggedIn() {
@@ -38,7 +44,10 @@ const Modal = () => {
         "Content-Type": "application/json",
       },
     });
+    console.log(response.status); 
     if (response.status == 200) {
+      
+      return 
     } else if (response.status == 400) {
     }
   }
