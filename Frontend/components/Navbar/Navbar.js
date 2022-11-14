@@ -38,7 +38,6 @@ const Navbar = () => {
           <li className="liNav">
           <img id="iconRorm" src="https://thumbs2.imgbox.com/aa/7a/6B7mj05k_t.png"></img>
           </li>
-          
           <li className="liNav">
             <Link href="/">Home</Link>
           </li>
