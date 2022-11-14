@@ -1,0 +1,10 @@
+Mall:
+,{
+    "playersId": ,
+    "position": "",
+    "playername": "",
+    "playerinformation": "",
+    "images": [
+        "https://images2.imgbox.com/ea/1c/cFfcitTj_o.jpg"
+    ]
+}

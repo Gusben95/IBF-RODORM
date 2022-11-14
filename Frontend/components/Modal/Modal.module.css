@@ -11,7 +11,7 @@
 }
 
 .modal{
-    background-color: #ffffff;
+    background-color: grey;
     padding: 2em;
     border-radius: 4px;
     color: #000000;
@@ -26,8 +26,9 @@
     border-radius: 4px;
     font-size: 1.4em;
     background-color: #ffffff;
-    border: 1px solid lightgray;
+    border: 2px solid lightgray;
     color: #000000;
+    
 }
 
 .exit{
@@ -37,4 +38,16 @@
     margin: 0; 
     cursor: pointer;
     font-weight: bold;
+}
+
+.loginBtn {
+    background-color: rgb(3, 83, 3);
+}
+
+.registerBtn {
+    background-color: black;
+}
+
+.textLoggaIn {
+    font-size: 3em;
 }
