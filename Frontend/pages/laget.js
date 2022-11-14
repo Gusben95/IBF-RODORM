@@ -33,10 +33,10 @@ const laget = () => {
   }, []);
 
   const listPlayers = players?.map((spelare) => {
-  return <li key={spelare.playersId}><p>{spelare.playername}</p>{parse(spelare.position)}{parse(spelare.playerinformation)} <img src={spelare.images} /></li>
+  return <li key={spelare.playersId}><p>{spelare.playername}</p>{parse(spelare.position)}{parse(spelare.playerinformation)} <img loading="lazy" src={spelare.images} /></li>
 })
 
-
+/* list-style: none; */
   /* const playersList = [];
   for (let i = 0; i < playerData.length; i++) {
   } */
@@ -45,16 +45,6 @@ const laget = () => {
     <>
       <div>
         <p>Truppen</p>
-        <div>
-          {/* ta understa länken på imgbox i Html */}
-         {/*  <Image
-            src="https://images2.imgbox.com/ea/1c/cFfcitTj_o.jpg"
-            alt="/"
-            width="300"
-            height="200"
-            priority
-          /> */}
-        </div>
       <div>
         <ul>
         {listPlayers}
