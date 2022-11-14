@@ -141,7 +141,7 @@ app.get("/isLoggedIn", checkTokenAll, async (req, res) => {
   user.password = "";
 
   res.status(200).json(user);
-  logger.error(err);
+  /* logger.error(err); */
 });
 
 app.post("/loggOut", async (req, res) => {
