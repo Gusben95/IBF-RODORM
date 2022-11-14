@@ -32,11 +32,13 @@ const Navbar = () => {
   return (
     <nav>
       <div className={styles.logo}>
-      {/* <img id="iconRorm" src="https://thumbs2.imgbox.com/2f/8d/JGXLjQzz_t.jpg"></img> */}
-      {/* <img id="iconRorm" src="https://thumbs2.imgbox.com/1e/55/Qc75Ts3q_t.jpg"></img> */}
-      {/* <img id="iconRorm" src="https://thumbs2.imgbox.com/57/af/t7a2JAvS_t.png"></img> */}
-    <img id="iconRorm" src="https://thumbs2.imgbox.com/aa/7a/6B7mj05k_t.png"></img>
+      {/* <img id="iconRorm" src="https://thumbs2.imgbox.com/57/af/t7a2JAvS_t.png"></img> 300px*/}
+    {/* <img id="iconRorm" src="https://thumbs2.imgbox.com/aa/7a/6B7mj05k_t.png"></img> */}
         <ul className={styles.logo}>
+          <li className="liNav">
+          <img id="iconRorm" src="https://thumbs2.imgbox.com/aa/7a/6B7mj05k_t.png"></img>
+          </li>
+          
           <li className="liNav">
             <Link href="/">Home</Link>
           </li>
