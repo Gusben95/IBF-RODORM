@@ -34,12 +34,16 @@ const laget = () => {
 
   const listPlayers = players?.map((spelare) => {
     return (
-      <li className={styles.liPlayers} key={spelare.playersId}>
+      
+      <li className={styles.liPlayers} key={spelare.playersId}> 
+      
         <p>{spelare.playername}</p>
         {parse(spelare.position)}
         {parse(spelare.playerinformation)}{" "}
         <img loading="lazy" className={styles.images} src={spelare.images} />
+        
       </li>
+      
     );
   });
 
@@ -51,7 +55,7 @@ const laget = () => {
   return (
     <>
       <div>
-        <h1 id="h1Truppen">Truppen</h1>
+        <h1 id={styles.h1Truppen}>Truppen</h1>
         <div>
           <ul className={styles.ulPlayers}>
             <li>{listPlayers}</li>

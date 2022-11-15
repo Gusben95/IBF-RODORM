@@ -2,26 +2,46 @@
 
 #h1Truppen{
     font-size: xx-large;
+    display: flex;
+    flex-direction: row;
+    
+    justify-content: center;
+    align-items: center
 }
+
+.ulDiv {
+    display: flex;
+    
+}
+
 .ulPlayers {
     font-family: "Montserrat", sans-serif;
     list-style: none;
     list-style-type: none;
+
     display: flex;
     flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    position: relative;/* added */
+    padding-left:0;
+    width: 100%;
+    
 }
 
 .liPlayers {
     font-family: "Montserrat", sans-serif;
     list-style: none;
     list-style-type: none;
-    flex: 0 0 33.333333%;
-}
-.img {
-    width: 500px;
+
+    background-color: white;
+    border-radius: .3em;
+    width: 30%;
+    flex: 33% 33% 33%;/* added */
 }
 
 .images {
-    height: 500px;
-    width: 500px;   
+     height: 500px;
+    width: 500px;  
 }
