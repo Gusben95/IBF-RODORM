@@ -8,7 +8,14 @@ import {useRouter} from "next/router";
 const Modal = () => {
   const usernameRef = useRef();
   const passwordRef = useRef();
+  const passwordrepRef = useRef();
+  const strengthBadge = useRef();
+  const infoh1 = useRef();
+  const isEqual = useRef();
   const [showModal, setShowModal] = useState(false);
+  const [showReg, setReg] = useState(false);
+  const [showLoggedout , setLoggout] = useState(false);
+
   const router = useRouter();
   //gör en färdig för axios, googla baseurl
 
@@ -26,6 +33,7 @@ const Modal = () => {
     });
     if (response.status === 200){
       router.push('/profil');
+      setLoggout(true)
       return
     }
     const data = await response.json();
@@ -58,8 +66,9 @@ const Modal = () => {
     
   };
 
-  const registerUser = () => {
-    fetch("http://localhost:4000/createUser", {
+  const registerUser = async () => {
+     
+     const response = await fetch("http://localhost:4000/createUser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -70,8 +79,27 @@ const Modal = () => {
         username: usernameRef.current.value,
         password: passwordRef.current.value,
       }),
+
     });
+   if (response.status == 200)
+   {setReg(false)}
   }
+  
+  function strengthChecker(PasswordParameter) {
+    console.log(PasswordParameter);
+    if(strongPassword.test(PasswordParameter)) {
+        strengthBadge.current.style.color = "green";
+        strengthBadge.current.textContent = 'StronK!';
+        
+    } else if(mediumPassword.test(PasswordParameter)) {
+        strengthBadge.current.style.color = 'blue';
+        strengthBadge.current.textContent = 'Medium';
+    } else {
+        strengthBadge.current.style.color = 'red';
+        strengthBadge.current.textContent = 'Weak';
+    }
+}
+
   /* 
       const registerChef = async () => {
         e.preventDefault();
@@ -131,7 +159,8 @@ const Modal = () => {
               e.stopPropagation();
             }}
           >
-            <h1 className={styles.textLoggaIn}>Logga in</h1>
+            <h1 ref = {infoh1}className={styles.textLoggaIn}> { showReg ? 'register': 'Logga in' }</h1>
+           
             <p
               className={styles.exit}
               onClick={() => {
@@ -144,8 +173,22 @@ const Modal = () => {
             <input
               type="password"
               placeholder="Password"
-              ref={passwordRef}
+              ref={passwordRef} 
             ></input>
+            {showReg ? (
+            <>
+            <input
+              type="password"
+              placeholder="Password"
+              ref={passwordrepRef} onChange= {(e) => {
+                strengthChecker(passwordRef.current.value)
+                console.log(e)
+                }}
+            ></input>
+            <p ref = {strengthBadge}> Lösenords styrka </p>
+            <p ref = {isEqual}></p>
+            </>
+            ) : (
             <button
               className={styles.loginBtn}
               type="submit"
@@ -153,19 +196,17 @@ const Modal = () => {
             >
               Logga in
             </button>
+            ) }
             <div>
               <button
                 className={styles.registerBtn}
                 type="submit"
-                onClick={registerUser}
+                onClick={ showReg ? registerUser : setReg
+                }
               >
                 Registrera
               </button>
             </div>
-            <div>
-              <button onClick={loggOut}>Logga ut</button>
-            </div>
-            <button onClick={loggedIn}>Testa</button>
           </div>
         </div>
       )}
@@ -173,6 +214,7 @@ const Modal = () => {
       <button
         onClick={() => {
           setShowModal(true);
+          
         }}
       >
         Logga in
