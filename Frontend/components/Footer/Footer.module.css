@@ -2,6 +2,8 @@
     background-color: white;
     display: flex;
     justify-content: center;
+    gap: 2em
+
 }
 
 #p {
