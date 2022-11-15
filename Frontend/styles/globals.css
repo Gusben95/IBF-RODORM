@@ -20,7 +20,11 @@ a {
     color-scheme: dark;
   }
   body {
-    color: white;
-    background: black;
+    color: black;
+    background: white;
   }
+}
+
+@media screen and (min-width: 800px) {
+  
 }

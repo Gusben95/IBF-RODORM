@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+#h1Truppen{
+    font-size: xx-large;
+}
+.ulPlayers {
+    font-family: "Montserrat", sans-serif;
+    list-style: none;
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.liPlayers {
+    font-family: "Montserrat", sans-serif;
+    list-style: none;
+    list-style-type: none;
+    flex: 0 0 33.333333%;
+}
+.img {
+    width: 500px;
+}
+
+.images {
+    height: 500px;
+    width: 500px;   
+}

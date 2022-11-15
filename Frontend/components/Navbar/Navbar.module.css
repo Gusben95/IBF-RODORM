@@ -1,12 +1,13 @@
 .logo {
-    background-color: white;
+    background-color: black;
     display: flex;
     flex-direction: row;
-    
-    align-items: center;
     color: rgb(176, 6, 6);
     list-style: none;
-    gap: 5rem;
+    gap: 5em;
+    justify-content: flex-start;
+    align-content: center;
+    align-items: center;
 }
 
 #txt {
@@ -19,7 +20,7 @@
 }
 
 #iconRorm {
-    background-color: white;
-    height: 500px; 
-    width: 500px;
+    background-color: rgb(248, 247, 247);
+    width: 150px;
+    height: 150px;
 }
