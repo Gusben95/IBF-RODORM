@@ -9,8 +9,9 @@
     align-items: center
 }
 
-.ulDiv {
-    display: flex;
+.liDiv {
+    background-color: grey;
+    padding: 6px;
     
 }
 
@@ -22,7 +23,7 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     
     position: relative;/* added */
     padding-left:0;
@@ -30,18 +31,26 @@
     
 }
 
+.liPlayers > p {
+    max-width: 300px;
+}
+
 .liPlayers {
     font-family: "Montserrat", sans-serif;
     list-style: none;
     list-style-type: none;
 
-    background-color: white;
+    
     border-radius: .3em;
-    width: 30%;
-    flex: 33% 33% 33%;/* added */
+    justify-content: center;
+    text-align: center;
+    
 }
 
 .images {
-     height: 500px;
-    width: 500px;  
+    max-height: 500px;
+    max-width: 300px;
+    width:auto;
+    height: auto;
+
 }
