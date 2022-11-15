@@ -5,11 +5,11 @@ import Footer from '../components/Footer/Footer';
 
 const spelschema = () => {
     return (
-        <div>
+        <div className={styles.divEtt}>
         
             <p>Information</p>
         
-        <div>
+        <div className={styles.divEtt}>
             <p>Spelschema och serie:</p>
             
             <a href="https://korpengoteborg.zoezi.se/member#/teamsports/division/96"
