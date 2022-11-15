@@ -18,9 +18,7 @@ require("dotenv").config();
 const { request } = require("express");
 const app = express();
 require("dotenv").config();
-
 const PORT = process.env.PORT;
-
 app.use(cookie());
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -49,7 +47,7 @@ app.get("/", (req, res) => {
   res.send("Try /getAllUsers or /createUser");
 });
 
-//skapa användare,
+//skapa användare,asdasdasdda
 //innerhåller: ej skapa likadana konton. Assign roll till användare.
 
 app.post("/createUser", async (req, res) => {
@@ -88,7 +86,7 @@ app.post("/createUser", async (req, res) => {
 const addMinutes = (minutes, date = new Date()) => {
   return new Date(date.setMinutes(date.getMinutes() + minutes));
 };
-app.post("/loginUser", async (req, res) => {
+app.post("/loginUser" , async (req, res) => {
   let account = req.body;
   let result = await db.getUserByUsername(account.username).catch((err) => {
     res.send("error");
@@ -124,14 +122,13 @@ app.post("/loginUser", async (req, res) => {
   }
 });
 
-app.post("/admin", checkTokenAll, async (req, res) => {
-  res.json("hej");
-});
+
 
 app.get("/isLoggedIn", checkTokenAll, async (req, res) => {
   let token = req.cookies.token;
 
   const wholeuser = await db.getUserByToken(token).catch((err) => {
+   
     console.log("Could not get token", err);
     res.status(400).send("error");
     res.end();
@@ -139,9 +136,10 @@ app.get("/isLoggedIn", checkTokenAll, async (req, res) => {
   });
   let user = wholeuser[0];
   user.password = "";
-
+  user.role = req.role;
+  console.log("walla",user);
   res.status(200).json(user);
-  logger.error(err);
+  /* logger.error(err); */
 });
 
 app.post("/loggOut", async (req, res) => {
@@ -162,6 +160,35 @@ app.get("/players", async (req, res) => {
   });
   res.status(200).json(playerInfo);
 });
+
+
+app.get("/getusers", async (req, res) => {
+  const userInfo = await db.getAllUsers().catch((err) => {
+    res.status(400).send("error");
+    logger.error(err);
+    res.end();
+  })
+  res.status(200).json(userInfo);
+})
+
+app.post("/removeuser", async (req, res) => {
+  let user = req.body.userId;
+  console.log("removeuser id = ", user)
+  const deluser = await db.deleteUser(user).catch((err) => { 
+    res.send("error")
+});
+})
+
+
+
+
+
+
+
+
+
+
+
 
 /* const getUserByUsername = (account) => {
   let sql = `SELECT password FROM Users WHERE username=?`;

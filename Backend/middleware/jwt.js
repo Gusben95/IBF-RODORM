@@ -9,32 +9,35 @@ let checkToken = (token, res) => {
       process.env.ACCESS_TOKEN_SECRET,
       (err, decoded) => {
         if (err) {
-          res.json({
-            success: false,
-            message: "Token is not valid",
-          });
+          return null; 
+        
         } else {
           return decoded;
         }
       }
     );
   } else {
-    res.status(400).json({
-      success: false,
-      message: "Auth token is not supplied",
-    });
+   return null;
   }
 };
 
 let checkTokenAll = (req, res, next) => {
   let token = req.cookies.token;
   let match = checkToken(token, res);
-  console.log(match);
-  if (
+  console.log("32",match);
+  if (match == null){
+    res.status(400).json({
+      success: false,
+      message: "GET OUT",
+    })
+    return 
+  }
+  else if (
     match.role == "User" ||
     match.role == "Admin" ||
     match.role == "BIGBOSS"
   ) {
+    req.role = match.role ; 
     console.log("Token role check passed");
     next();
   } else {
