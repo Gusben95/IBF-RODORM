@@ -9,42 +9,40 @@
     height:20%
 }
 
-
 .divTvåBakgrund {
-  box-sizing:border-box;
+  /* box-sizing:border-box; */
+  display: flex;
   background-color: rgb(155, 5, 5);
   width: 100%;
-  height: 500px;
-}
-
-.slidesshowContainer {
-  max-width: 1000px;
-  position: relative;
-  margin: auto;
+  height: 1500px;
+  justify-content: center;
+  position: absolute;
 }
 
 .divTvåImg {
-  /* display: none; */
+  display: flex;
+  flex-direction: row;
   width: 100%;
-
-}
-
-.tekning {
-  max-height: 500px;
-  /* max-width: 300px; */
-  width: 500px;
+  overflow: scroll;
+  position: relative;
+  
+  
   
 }
 
-
-.textRuta {
-  color: #f2f2f2;
-  font-size: 15px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
+.tekning {
+  height: 800px;
   width: 100%;
-  text-align: center;
+}
+
+.divTre {
+  display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    height:20%
 }
 
 
