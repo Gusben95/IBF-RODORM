@@ -6,16 +6,18 @@ import {useRouter} from "next/router";
 
 
 const Modal = () => {
-  const usernameRef = useRef();
-  const passwordRef = useRef();
-  const passwordrepRef = useRef();
-  const strengthBadge = useRef();
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
+  const passwordrepRef = useRef(null);
+  const strengthBadge = useRef("");
   const infoh1 = useRef();
   const isEqual = useRef();
+  let strongPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})')
+  let mediumPassword = new RegExp('((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{6,}))|((?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=.{8,}))')
   const [showModal, setShowModal] = useState(false);
   const [showReg, setReg] = useState(false);
   const [showLoggedout , setLoggout] = useState(false);
-
+  const [showLoggin , setLoggin] = useState(true)
   const router = useRouter();
   //gör en färdig för axios, googla baseurl
 
@@ -51,6 +53,8 @@ const Modal = () => {
     });
     console.log(response.status); 
     if (response.status == 200) {
+      showLoggedout(true)
+      showLoggin(false)
     } else if (response.status == 400) {
     }
   }
@@ -67,7 +71,14 @@ const Modal = () => {
   };
 
   const registerUser = async () => {
-     
+     if(passwordRef.current.value !== passwordrepRef.current.value){
+      isEqual.current.textContent = 'Lösenordet matchar inte'
+      isEqual.current.color = 'red'
+      return}
+     if (!strongPassword){
+      isEqual.current.textContent = 'svagt lösenord'
+      isEqual.current.color = 'red'
+      return}
      const response = await fetch("http://localhost:4000/createUser", {
       method: "POST",
       headers: {
@@ -173,7 +184,9 @@ const Modal = () => {
             <input
               type="password"
               placeholder="Password"
-              ref={passwordRef} 
+              ref={passwordRef} onChange= {(e) => {
+                strengthChecker(passwordRef.current.value)
+                console.log(e)}}
             ></input>
             {showReg ? (
             <>
@@ -181,7 +194,7 @@ const Modal = () => {
               type="password"
               placeholder="Password"
               ref={passwordrepRef} onChange= {(e) => {
-                strengthChecker(passwordRef.current.value)
+                strengthChecker(passwordrepRef.current.value)
                 console.log(e)
                 }}
             ></input>
@@ -211,14 +224,8 @@ const Modal = () => {
         </div>
       )}
 
-      <button
-        onClick={() => {
-          setShowModal(true);
-          
-        }}
-      >
-        Logga in
-      </button>
+     <button onClick={() => {setShowModal(true)}}>Logga in</button>
+      <button onclick ={loggOut} >Logga ut</button>
     </div>
   );
 };
