@@ -31,7 +31,7 @@ const Navbar = () => {
  
   return (
     <nav>
-      <div className={styles.logo}>
+      <div>
       {/* <img id="iconRorm" src="https://thumbs2.imgbox.com/57/af/t7a2JAvS_t.png"></img> 300px*/}
     {/* <img id="iconRorm" src="https://thumbs2.imgbox.com/aa/7a/6B7mj05k_t.png"></img> */}
         <ul className={styles.logo}>

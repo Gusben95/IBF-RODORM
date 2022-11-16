@@ -1,0 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+#h1Truppen{
+    font-size: xx-large;
+    display: flex;
+    flex-direction: row;
+    
+    justify-content: center;
+    align-items: center
+}
+
+.liDiv {
+    background-color: grey;
+    padding: 6px;
+    margin: 2em;
+    background: radial-gradient( rgb(199, 160, 160), rgb(255, 1, 1), rgb(0, 0, 0));
+    border-radius: 0px 0px 0px 35px;
+    
+}
+.liDiv:hover{
+    box-shadow: 5px 5px #888888;
+    transition: box-shadow 0.3s ease-in-out;
+    -webkit-transform: scale(1.25, 1.25);
+    transform: scale(1.20, 1.20);
+    transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.ulPlayers {
+    font-family: "Montserrat", sans-serif;
+    list-style: none;
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-around;
+    
+    position: relative;/* added */
+    padding-left:0;
+    width: 100%;
+   
+}
+
+.liPlayers > p {
+    max-width: 300px;
+   
+}
+
+.liPlayers {
+    font-family: "Montserrat", sans-serif;
+    list-style: none;
+    list-style-type: none;
+    
+    
+    border-radius: .3em;
+    justify-content: center;
+    text-align: center;
+    
+}
+
+.images {
+    max-height: 500px;
+    max-width: 300px;
+    width:auto;
+    height: auto;
+
+}

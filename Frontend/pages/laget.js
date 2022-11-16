@@ -8,7 +8,7 @@ const laget = () => {
   const [players, setPlayer] = useState([]);
 
   useEffect(() => {
-    const fetchPlayers = async() => {
+    const fetchPlayers = async () => {
       const response = await fetch("http://localhost:4000/players", {
         method: "GET",
         credentials: "include",
@@ -28,15 +28,24 @@ const laget = () => {
         console.log(response);
         console.log("something went wrong");
       }
-    }
+    };
     fetchPlayers();
   }, []);
 
   const listPlayers = players?.map((spelare) => {
-  return <li key={spelare.playersId}><p>{spelare.playername}</p>{parse(spelare.position)}{parse(spelare.playerinformation)} <img loading="lazy" src={spelare.images} /></li>
-})
+    return (
+      <div className={styles.liDiv} key={spelare.playersId}>
+        <li className={styles.liPlayers} >
+          <img loading="lazy" className={styles.images} src={spelare.images} />
+          <p>{spelare.playername}</p>
+          {parse(spelare.position)}
+          {parse(spelare.playerinformation)}{" "}
+        </li>
+      </div>
+    );
+  });
 
-/* list-style: none; */
+  /* list-style: none; */
   /* const playersList = [];
   for (let i = 0; i < playerData.length; i++) {
   } */
@@ -44,12 +53,10 @@ const laget = () => {
   return (
     <>
       <div>
-        <p>Truppen</p>
-      <div>
-        <ul>
-        {listPlayers}
-        </ul>
-      </div>
+        <h1 id={styles.h1Truppen}>Truppen</h1>
+        <div>
+          <ul className={styles.ulPlayers}>{listPlayers}</ul>
+        </div>
       </div>
     </>
   );

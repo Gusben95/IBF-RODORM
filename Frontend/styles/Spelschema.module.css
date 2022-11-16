@@ -1,7 +1,7 @@
 .iFrameContainer {
     position: relative;
     height: 800px;
-    width: 500px;
+    width: 1000px;
 }
 
 .iFrameContent {
@@ -9,6 +9,6 @@
     top: 10px;
     left: 10px;
     height: 500px;
-    width: 500px;
+    width: 1000px;
 
 }
