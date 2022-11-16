@@ -3,22 +3,20 @@ require("dotenv").config();
 // Express headers are auto converted to lowercase
 
 let checkToken = (token, res) => {
-  if (token) {
-    return jwt.verify(
-      token,
-      process.env.ACCESS_TOKEN_SECRET,
-      (err, decoded) => {
-        if (err) {
-          return null; 
-        
-        } else {
-          return decoded;
-        }
-      }
-    );
-  } else {
-   return null;
+  try{
+    if (token) {
+      return jwt.verify(
+        token,
+        process.env.ACCESS_TOKEN_SECRET,
+      
+      );
+    } else {
+     return null;
+    }
+  }catch(err){
+    res.sendStatus(401)
   }
+  
 };
 
 let checkTokenAll = (req, res, next) => {
