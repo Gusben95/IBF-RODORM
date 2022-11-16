@@ -64,10 +64,10 @@ const adminprofil = () => {
 
         const data = await response.json(); 
         console.log(data.role); 
-        if (data.role != "BIGBOSS")
-                {Router.push('/')}
+        if (data.role != "BIGBOSS"){}
+                // {Router.push('/')}
     } else if (response.status == 400) {
-        Router.push('/')
+        // Router.push('/')
     }
   }
   loggedIn();

@@ -15,14 +15,14 @@ const Modal = () => {
   let strongPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})')
   let mediumPassword = new RegExp('((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{6,}))|((?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=.{8,}))')
   const [showModal, setShowModal] = useState(false);
-  const [showReg, setReg] = useState(false);
-  const [showLoggedout , setLoggout] = useState(false);
-  const [showLoggin , setLoggin] = useState(true)
+  const [showReg, setReg] = useState(false); 
   const router = useRouter();
   //gör en färdig för axios, googla baseurl
 
   const loginUser = async () => {
+   try {
     const response = await fetch("http://localhost:4000/loginUser", {
+      
       method: "POST",
       credentials: "include",
       headers: {
@@ -33,31 +33,20 @@ const Modal = () => {
         password: passwordRef.current.value,
       }),
     });
+    console.log("rad 36 modal")
     if (response.status === 200){
+      setShowModal(false)
       router.push('/profil');
-      setLoggout(true)
       return
     }
     const data = await response.json();
     console.log(data);
-     
+   
+   }catch(err){
+    console.log(err);
+   }  
   };
 
-  async function loggedIn() {
-    const response = await fetch("http://localhost:4000/isLoggedIn", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    console.log(response.status); 
-    if (response.status == 200) {
-      showLoggedout(true)
-      showLoggin(false)
-    } else if (response.status == 400) {
-    }
-  }
 
   const loggOut = () => {
     fetch("http://localhost:4000/loggOut", {
@@ -67,17 +56,15 @@ const Modal = () => {
         "Content-Type": "application/json",
       },
     });
-    
+    router.push('/')
   };
 
   const registerUser = async () => {
      if(passwordRef.current.value !== passwordrepRef.current.value){
       isEqual.current.textContent = 'Lösenordet matchar inte'
-      isEqual.current.color = 'red'
       return}
      if (!strongPassword){
       isEqual.current.textContent = 'svagt lösenord'
-      isEqual.current.color = 'red'
       return}
      const response = await fetch("http://localhost:4000/createUser", {
       method: "POST",
@@ -97,7 +84,8 @@ const Modal = () => {
   }
   
   function strengthChecker(PasswordParameter) {
-    console.log(PasswordParameter);
+    
+   if(!showReg){return}
     if(strongPassword.test(PasswordParameter)) {
         strengthBadge.current.style.color = "green";
         strengthBadge.current.textContent = 'StronK!';
@@ -186,7 +174,7 @@ const Modal = () => {
               placeholder="Password"
               ref={passwordRef} onChange= {(e) => {
                 strengthChecker(passwordRef.current.value)
-                console.log(e)}}
+              }}
             ></input>
             {showReg ? (
             <>
@@ -195,7 +183,7 @@ const Modal = () => {
               placeholder="Password"
               ref={passwordrepRef} onChange= {(e) => {
                 strengthChecker(passwordrepRef.current.value)
-                console.log(e)
+               
                 }}
             ></input>
             <p ref = {strengthBadge}> Lösenords styrka </p>
@@ -225,7 +213,7 @@ const Modal = () => {
       )}
 
      <button onClick={() => {setShowModal(true)}}>Logga in</button>
-      <button onclick ={loggOut} >Logga ut</button>
+      <button onClick ={loggOut} >Logga ut</button>
     </div>
   );
 };
