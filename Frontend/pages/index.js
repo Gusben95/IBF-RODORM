@@ -13,6 +13,9 @@ https://images2.imgbox.com/e3/8e/LlAQsP02_o.jpg glada men trötta
  */
 
 export default function Home() {
+
+//en div för bilderna, sen overflow-scroll with 100%, ligger i diven, kan bara slida 
+
   return (
     <div>
       <main>
@@ -30,7 +33,7 @@ export default function Home() {
         </div>
         <div className={styles.divTvåBakgrund}>
           <div className={styles.slideshowContainer}>
-            <div className={styles.divTvåImg}>
+            <div className={styles.divTvåImg .fade}>
               <img
                 src="https://images2.imgbox.com/e1/cb/maYrjQ3c_o.png"
                 alt="Tekning"
@@ -71,8 +74,9 @@ export default function Home() {
         </div>
         <div className={styles.dotsDiv}>
           <span className={styles.dot} onclick="currentSlide(1)"></span>
-          <span className={styles.dotDiv} onclick="currentSlide(2)"></span>
-          <span className={styles.dotDiv} onclick="currentSlide(3)"></span>
+          <span className={styles.dot} onclick="currentSlide(2)"></span>
+          <span className={styles.dot} onclick="currentSlide(3)"></span>
+          <span className={styles.dot} onclick="currentSlide(4))"></span>
         </div>
         <div className={styles.divTre}></div>
       </main>
