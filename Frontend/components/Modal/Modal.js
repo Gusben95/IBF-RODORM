@@ -20,6 +20,7 @@ const Modal = () => {
 
   const loginUser = async () => {
    try {
+    
     const response = await fetch("http://localhost:4000/loginUser", {
       
       method: "POST",
@@ -62,6 +63,7 @@ const Modal = () => {
      if(passwordRef.current.value !== passwordrepRef.current.value){
       isEqual.current.textContent = 'Lösenordet matchar inte'
       return}
+      
      if (!strongPassword){
       isEqual.current.textContent = 'svagt lösenord'
       return}

@@ -1,7 +1,4 @@
 const logger = require("./logger/winston");
-const mysql = require("mysql");
-
-const bodyParser = require("body-parser");
 const cookie = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -13,13 +10,11 @@ const {
   checkTokenBoss,
 } = require("./middleware/jwt");
  const { pingLimiter } = require ("./middleware/ratelimit");
-const rateLimit = require("express-rate-limit"); 
-
 
 const db = require("./database");
 const { comparePassword, hashPassword } = require("./Utils/bcrypt");
 require("dotenv").config();
-const { request } = require("express");
+
 const app = express();
 require("dotenv").config();
 const PORT = process.env.PORT;
@@ -55,33 +50,27 @@ app.get("/", (req, res) => {
 //innerhåller: ej skapa likadana konton. Assign roll till användare.
 
 app.post("/createUser", pingLimiter, async (req, res) => {
+  try{
   let username = req.body.username;
   let password = req.body.password;
   let hashPassword = await bcrypt.hash(password, 10);
 
   if (!username || !password) {
-    res
-      .status(400)
-      .json({ message: "Username or password missing in request" });
     return;
   }
-
-  const userExists = await db.getUserByUsername(username).catch((err) => {
-    res
-      .status(400)
-      .json({ message: "Error getting user to check if already exists " });
-  });
+  
+  const userExists = await db.getUserByUsername(username)
   console.log("server.js", userExists);
   if (userExists.length > 0) {
-    res.status(400).json({ message: "User already exists" });
     return;
   }
-  const resultId = await db.createUser(username, hashPassword).catch((err) => {
-    res.status(400);
-  });
+  const resultId = await db.createUser(username, hashPassword)
   console.log(resultId);
   db.assignRoleToUser(resultId, 1000);
   res.status(200).json({ username: username });
+  }catch(err){
+ logger.error(err);
+  }
 });
 
 //logga in
@@ -91,13 +80,14 @@ const addMinutes = (minutes, date = new Date()) => {
   return new Date(date.setMinutes(date.getMinutes() + minutes));
 };
 app.post("/loginUser", pingLimiter, async (req, res) => {
-  let account = req.body;
+  try {
+    let account = req.body;
   let result = await db.getUserByUsername(account.username).catch((err) => {
     res.send("error");
   });
 
   if (result.length <= 0) {
-    res.status(500).json({ message: "Error User not found" });
+    
     return;
   } else {
     const match = await comparePassword(account.password, result[0].password);
@@ -124,23 +114,31 @@ app.post("/loginUser", pingLimiter, async (req, res) => {
       console.log("Fel användare/lösenord");
     }
   }
+  }catch(err){
+    res.status(500).json({ message: "Error User not found" });
+    logger.error(err);
+  }
 });
 
 app.get("/isLoggedIn", pingLimiter, checkTokenAll, async (req, res) => {
   let token = req.cookies.token;
   console.log("loggar toke", token);
-  const wholeuser = await db.getUserByToken(token).catch((err) => {
-    console.log("Could not get token", err);
-    return res.status(400).json({
-      message: "ojdå",
-      success: false,
-    });
-  });
-  let user = wholeuser[0];
-  user.password = "";
-  user.role = req.role;
-  console.log("walla", user);
-  res.status(200).json(user);
+  const wholeuser = await db.getUserByToken(token)
+    try{ let user = wholeuser[0];
+      user.password = "";
+      user.role = req.role;
+      console.log("walla", user);
+      res.status(200).json(user);
+    }catch(err){
+        console.log("Could not get token", err);
+        return res.status(400).json({
+          message: "ojdå",
+          success: false,
+    }
+    
+    )};
+
+ 
   /* logger.error(err); */
 });
 
@@ -149,29 +147,44 @@ app.post("/loggOut", pingLimiter, async (req, res) => {
 });
 
 app.get("/players", pingLimiter, async (req, res) => {
-  const playerInfo = await db.getAllPlayers().catch((err) => {
-    res.status(400).send("error");
-    logger.error(err);
-    res.end();
-  });
-  res.status(200).json(playerInfo);
+  const playerInfo = await db.getAllPlayers()
+    try{
+      res.status(200).json(playerInfo);
+    }catch(err){
+      res.status(400).send("error");
+      logger.error(err);
+      res.end();
+    }
 });
 
+
+
+// try {
+
+// }catch(err){
+//   logger.error(err);
+// }
 app.get("/getusers", checkTokenBoss, async (req, res) => {
-  const userInfo = await db.getAllUsers().catch((err) => {
-    res.status(400).send("error");
+  try {
+    const userInfo = await db.getAllUsers()
+    res.status(200).json(userInfo);
+  }catch(err){
     logger.error(err);
-    res.end();
-  });
-  res.status(200).json(userInfo);
+    res.status(400).send("error");
+  }
+  
 });
 
 app.post("/removeuser", pingLimiter, checkTokenBoss, async (req, res) => {
-  let user = req.body.userId;
-  console.log("removeuser id = ", user);
-  const deluser = await db.deleteUser(user).catch((err) => {
+  try{
+    let user = req.body.userId;
+    console.log("removeuser id = ", user);
+    const deluser = await db.deleteUser(user)
+  }catch(err){
+    logger.error(err)
     res.send("error");
-  });
+  }
+  
 });
 
 
