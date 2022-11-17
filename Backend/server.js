@@ -70,6 +70,7 @@ app.post("/createUser", pingLimiter, async (req, res) => {
   res.status(200).json({ username: username });
   }catch(err){
  logger.error(err);
+  
   }
 });
 
@@ -115,7 +116,7 @@ app.post("/loginUser", pingLimiter, async (req, res) => {
     }
   }
   }catch(err){
-    res.status(500).json({ message: "Error User not found" });
+    res.status(400).json({ message: "Error" });
     logger.error(err);
   }
 });
@@ -170,7 +171,7 @@ app.get("/getusers", checkTokenBoss, async (req, res) => {
     res.status(200).json(userInfo);
   }catch(err){
     logger.error(err);
-    res.status(400).send("error");
+    res.status(400).json({ message: "Error" });
   }
   
 });
@@ -182,7 +183,7 @@ app.post("/removeuser", pingLimiter, checkTokenBoss, async (req, res) => {
     const deluser = await db.deleteUser(user)
   }catch(err){
     logger.error(err)
-    res.send("error");
+    res.status(400).json({ message: "Error" });
   }
   
 });
