@@ -22,10 +22,10 @@ const laget = () => {
       } else if (response.status == 200) {
         const playerData = await response.json();
         setPlayer(playerData);
-        console.table(playerData);
+       
         console.log("Hämtat spelare");
       } else {
-        console.log(response);
+        
         console.log("something went wrong");
       }
     };

@@ -32,7 +32,7 @@ const Modal = () => {
         password: passwordRef.current.value,
       }),
     });
-    console.log("rad 36 modal")
+    
     if (response.status === 200){
       setShowModal(false)
       router.push('/profil');
@@ -42,7 +42,7 @@ const Modal = () => {
     console.log(data);
    
    }catch(err){
-    console.log(err);
+    
    }  
   };
 

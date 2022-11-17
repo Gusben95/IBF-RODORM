@@ -23,10 +23,8 @@ const adminprofil = () => {
       } else if (response.status == 200) {
         const users = await response.json();
         setUsers(users);
-        console.table(users);
         console.log("Hämtat användare");
       } else {
-        console.log(response);
         console.log("something went wrong");
       }
     }
@@ -34,7 +32,6 @@ const adminprofil = () => {
   }, []);
 
   async function removeUser(userId){
-    console.log(userId);
     const res = await fetch ("http://localhost:4000/removeuser", {
         method: "POST",
         credentials: "include",
@@ -44,10 +41,8 @@ const adminprofil = () => {
         body: JSON.stringify({userId})
       })
          if (res.status == 400) {
-        console.log("Kunde inte ta bort användare");
       }
       else if(res.status == 200 ){
-        console.log("användare borttagen")
       }
   }
 
@@ -59,15 +54,15 @@ const adminprofil = () => {
         "Content-Type": "application/json",
       },
     });
-    console.log(response.status); 
+    
     if (response.status == 200) {
 
         const data = await response.json(); 
-        console.log(data.role); 
+        
         if (data.role != "BIGBOSS"){}
-                // {Router.push('/')}
+                {Router.push('/')}
     } else if (response.status == 400) {
-        // Router.push('/')
+        Router.push('/')
     }
   }
   loggedIn();
@@ -79,7 +74,7 @@ const adminprofil = () => {
   return (
     <>
       <div>
-        <p>Truppen</p>
+        <p>Användare</p>
       <div>
         <ul>
         {listUsers}

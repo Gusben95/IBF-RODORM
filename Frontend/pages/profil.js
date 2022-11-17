@@ -20,10 +20,10 @@ export default function Profil() {
       } else if (response.status == 200) {
         const data = await response.json();
         setUser(data);
-        console.log(data);
-        console.log("Inloggad med token verifierad");
+        
+        console.log("Inloggad med token!");
       } else {
-        console.log(response);
+        
         console.log("something went wrong");
       }
     }
