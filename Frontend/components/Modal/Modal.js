@@ -60,29 +60,31 @@ const Modal = () => {
   };
 
   const registerUser = async () => {
-     if(passwordRef.current.value !== passwordrepRef.current.value){
-      isEqual.current.textContent = 'Lösenordet matchar inte'
-      return}
-      
-     if (!strongPassword){
-      isEqual.current.textContent = 'svagt lösenord'
-      return}
-     const response = await fetch("http://localhost:4000/createUser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    if (passwordRef.current.value !== passwordrepRef.current.value) {
+      isEqual.current.textContent = "Lösenordet matchar inte";
+      return;
+    }
+    if (passwordRef.current.value !== strongPassword) {
+      isEqual.current.textContent = "svagt lösenord";
+      return;
+    } else {
+      const response = await fetch("http://localhost:4000/createUser", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
 
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: JSON.stringify({
-        username: usernameRef.current.value,
-        password: passwordRef.current.value,
-      }),
-
-    });
-   if (response.status == 200)
-   {setReg(false)}
-  }
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({
+          username: usernameRef.current.value,
+          password: passwordRef.current.value,
+        }),
+      });
+      if (response.status == 200) {
+        setReg(false);
+      }
+    }
+  };
   
   function strengthChecker(PasswordParameter) {
     
