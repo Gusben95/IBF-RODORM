@@ -110,14 +110,14 @@ app.post("/loginUser", pingLimiter, async (req, res) => {
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
-          expiresIn: "24h", // expires in 24 hours
+          expiresIn: "15m", // expires in 15 min
         }
       );
       res.cookie("token", token, {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
-        expires: addMinutes(1440),
+        expires: addMinutes(15),
       });
       res.status(200).json({ username: account.username, accesstoken: token });
     } else {
