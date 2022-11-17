@@ -25,7 +25,7 @@ export default function Home() {
             samt andra som följt med bara för att ha kul. Vi har alltid behov av
             nya spelare så tveka inte att höra av dig för att provträna!
           </p>
-          <p className={styles.pEtt}>
+          <p className={styles.pTwo}>
             Vi spelar i division 1 Göteborgs Korpen och det spelas i
             lundbystrandshallen.
           </p>
@@ -57,7 +57,7 @@ export default function Home() {
           </div>
         </div>
         <div className={styles.divTre}>
-          <p>Några goa matchbilder från vikingarnas fälttåg</p>
+          <p className={styles.pTre}>Några goa matchbilder från vikingarnas fälttåg!</p>
         </div>
       </main>
     </div>

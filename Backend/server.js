@@ -12,6 +12,10 @@ const {
   checkTokenAdminBoss,
   checkTokenBoss,
 } = require("./middleware/jwt");
+/* const { apiLimiter } = require ("./middleware/ratelimit");
+/* const rateLimit = require("express-rate-limit"); 
+import rateLimit from ("express-rate-limit"); */
+
 const db = require("./database");
 const { comparePassword, hashPassword } = require("./Utils/bcrypt");
 require("dotenv").config();

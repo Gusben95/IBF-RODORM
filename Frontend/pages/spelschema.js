@@ -23,6 +23,10 @@ const spelschema = () => {
             </a>
         </div>
 
+        <div>
+          <a href="https://heja.io/">Heja app för se träningar</a>
+        </div>
+
         {/* <div className = {styles.iFrameContainer}>
                 <iframe className = {styles.iFrameContent} src="https://korpengoteborg.zoezi.se/member#/teamsports/division/96" scrolling="no"></iframe>
         </div> */}
