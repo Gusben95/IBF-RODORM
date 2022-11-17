@@ -42,14 +42,6 @@ db.connect(async (err, connection) => {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
     `;
 
-  //auto-increment är att man itne behöver specifiera id
-  //255 standard, hur många tecken
-  //Not NUll är att det inte får vara inget
-  //kan använda firebase för integrera och få in bilder, blobstore
-  //altertable, PlayersTable, add column_name datatype:, kan lägga in urlen,
-  //admin bör kunna ta bort spelare, delete isf, finns i sql
-  //ha.
-
   let createPlayersTable = `CREATE TABLE IF NOT EXISTS Players(
     playersId int NOT NULL AUTO_INCREMENT,
     position varchar(255) NOT NULL,

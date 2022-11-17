@@ -50,15 +50,6 @@ INSERT INTO Users (userId, username, password) VALUES (null, "Admin", "${pwdHash
 INSERT INTO Users (userId, username, password) VALUES (null, "BigBoss", "${pwdHashed}");
 `;
 
-  /* let user = `
-INSERT INTO Users (userId, username, password) VALUES (null, "User", "${pwdHashed}");
-` 
-let userAdmin = `
-INSERT INTO Users (userId, username, password) VALUES (null, "Admin", "${pwdHashed}");
-`
-let userBigBoss = `
-INSERT INTO Users (userId, username, password) VALUES (null, "BigBoss", "${pwdHashed}");
-` */
   pool.query(users, async (err) => {
     if (err) {
       console.log(err);
@@ -66,27 +57,6 @@ INSERT INTO Users (userId, username, password) VALUES (null, "BigBoss", "${pwdHa
     }
     console.log("Users CREATED!");
   });
-
-  /* pool.query(user, async (err) => {
-    if (err) {
-      console.log(err)
-      process.exit(1);
-    }
-    console.log('User CREATED!');
-})
-pool.query(userAdmin, async (err) => {
-    if (err) {
-      console.log(err)
-      process.exit(1);
-    }
-    console.log('Admin CREATED!');
-})
-pool.query(userBigBoss, async (err) => {
-    if (err) {
-      console.log(err)
-      process.exit(1);
-    }
-    console.log('BigBoss CREATED!'); */
 
   let usersWithRolesMock = `
 INSERT INTO UsersWithRoles (UserId, RoleId) VALUES (1, 1000);

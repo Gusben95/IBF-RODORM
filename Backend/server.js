@@ -1,6 +1,6 @@
 const logger = require("./logger/winston");
 const mysql = require("mysql");
-const rateLimit = require ('express-rate-limit')
+
 const bodyParser = require("body-parser");
 const cookie = require("cookie-parser");
 const jwt = require("jsonwebtoken");
@@ -12,9 +12,9 @@ const {
   checkTokenAdminBoss,
   checkTokenBoss,
 } = require("./middleware/jwt");
-/* const { apiLimiter } = require ("./middleware/ratelimit");
-/* const rateLimit = require("express-rate-limit"); 
-import rateLimit from ("express-rate-limit"); */
+ const { pingLimiter } = require ("./middleware/ratelimit");
+const rateLimit = require("express-rate-limit"); 
+
 
 const db = require("./database");
 const { comparePassword, hashPassword } = require("./Utils/bcrypt");
@@ -54,30 +54,30 @@ app.get("/", (req, res) => {
 //skapa användare,asdasdasdda
 //innerhåller: ej skapa likadana konton. Assign roll till användare.
 
-app.post("/createUser", async (req, res) => {
+app.post("/createUser", pingLimiter, async (req, res) => {
   let username = req.body.username;
   let password = req.body.password;
   let hashPassword = await bcrypt.hash(password, 10);
 
   if (!username || !password) {
     res
-      .status(500)
+      .status(400)
       .json({ message: "Username or password missing in request" });
     return;
   }
 
   const userExists = await db.getUserByUsername(username).catch((err) => {
     res
-      .status(500)
+      .status(400)
       .json({ message: "Error getting user to check if already exists " });
   });
   console.log("server.js", userExists);
   if (userExists.length > 0) {
-    res.status(500).json({ message: "User already exists" });
+    res.status(400).json({ message: "User already exists" });
     return;
   }
   const resultId = await db.createUser(username, hashPassword).catch((err) => {
-    res.status(500);
+    res.status(400);
   });
   console.log(resultId);
   db.assignRoleToUser(resultId, 1000);
@@ -90,7 +90,7 @@ app.post("/createUser", async (req, res) => {
 const addMinutes = (minutes, date = new Date()) => {
   return new Date(date.setMinutes(date.getMinutes() + minutes));
 };
-app.post("/loginUser" , async (req, res) => {
+app.post("/loginUser", pingLimiter, async (req, res) => {
   let account = req.body;
   let result = await db.getUserByUsername(account.username).catch((err) => {
     res.send("error");
@@ -126,37 +126,29 @@ app.post("/loginUser" , async (req, res) => {
   }
 });
 
-
-
-app.get("/isLoggedIn", checkTokenAll, async (req, res) => {
+app.get("/isLoggedIn", pingLimiter, checkTokenAll, async (req, res) => {
   let token = req.cookies.token;
-  console.log("loggar toke", token)
+  console.log("loggar toke", token);
   const wholeuser = await db.getUserByToken(token).catch((err) => {
     console.log("Could not get token", err);
     return res.status(400).json({
       message: "ojdå",
-      success: false
+      success: false,
     });
   });
   let user = wholeuser[0];
   user.password = "";
   user.role = req.role;
-  console.log("walla",user);
+  console.log("walla", user);
   res.status(200).json(user);
   /* logger.error(err); */
 });
 
-app.post("/loggOut", async (req, res) => {
-  return res 
-    .clearCookie("token")
-    .status(200)
-    .json({ message: "Logged out" });
-    
-  
-  });
+app.post("/loggOut", pingLimiter, async (req, res) => {
+  return res.clearCookie("token").status(200).json({ message: "Logged out" });
+});
 
-
-app.get("/players", async (req, res) => {
+app.get("/players", pingLimiter, async (req, res) => {
   const playerInfo = await db.getAllPlayers().catch((err) => {
     res.status(400).send("error");
     logger.error(err);
@@ -165,164 +157,21 @@ app.get("/players", async (req, res) => {
   res.status(200).json(playerInfo);
 });
 
-
-app.get("/getusers", checkTokenBoss ,async (req, res) => {
+app.get("/getusers", checkTokenBoss, async (req, res) => {
   const userInfo = await db.getAllUsers().catch((err) => {
     res.status(400).send("error");
     logger.error(err);
     res.end();
-  })
-  res.status(200).json(userInfo);
-})
-
-app.post("/removeuser", checkTokenBoss, async (req, res) => {
-  let user = req.body.userId;
-  console.log("removeuser id = ", user)
-  const deluser = await db.deleteUser(user).catch((err) => { 
-    res.send("error")
-});
-})
-
-
-
-
-
-
-
-
-
-
-
-
-/* const getUserByUsername = (account) => {
-  let sql = `SELECT password FROM Users WHERE username=?`;
-  let query = mysql.format(sql, [account.username]);
-  db.query(query, async (err, result)  => { 
-    
-    if(err){
-      console.log(err) }
-    if(result.length <= 0) {
-      console.log(result)  
-      console.log("User does not exist")
-    }
-   else {
-    const match = await comparePassword(account.password, result[0].password)
-    if(match) {
-      console.log("Du är inloggad")
-        let token = jwt.sign({username: account.username},
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '24h' // expires in 24 hours
-
-        }
-      );
-      res.cookie('token', token, { 
-        httpOnly: true, 
-        secure: true, 
-        sameSite: "strict", 
-        expires: addMinutes(1440)}); 
-
-      res.status(200).json({username: account.username, accesstoken: token})
-
-    }
-    else{console.log("Fel användare/lösenord")}
-
-  }
-  }
-  )}  */
-
-/* const addMinutes = (minutes, date = new Date()) => {   return new Date(date.setMinutes(date.getMinutes() + minutes)); };
-
-app.post('/loginUser', async (req, res) => {
-  
-  let account = req.body; 
-  console.log(account)
-  database.getUserByUsername(account)
-  
-
-}) */
-
-/* app.post("/api/register", jwtvalidator, async (req, res) => {
-  const username = req.body.username;
-  const email = req.body.email;
-  const rolename = req.body.role;
-  let password = req.body.password;
-
-  try {
-    if (!username || !password || !email) {
-      console.log("fyll i fälten");
-      return res.sendStatus(400);
-    }
-
-    const checkUser = await db.getUsersByEmail(email);
-    if (checkUser) {
-      return res.status(400).json({ message: "User already exists" });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const userId = await db.createUser({
-      username: username,
-      hashedPassword: hashedPassword,
-      email: email,
-    });
-    //get role id by rolename
-    const role = await db.getRoleByRolename(rolename);
-    //assign role to user
-    await db.assignRoleToUser(role.roleId, userId);
-
-    res.status(200).json({
-      username: username,
-      email: email,
-      role: role.rolename,
-    });
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(400);
-  }
-}); */
-
-/* app.post('/logoutUser', async (req, res) => {
-  if (req.session.loggedin) {
-    req.session.loggedin = false;
-    res.redirect('/');
-    console.log("logged out")
-}else{
-  // Not logged in
-  res.redirect('/');
-  console.log("Not logged in")
-}
-}) */
-
-// if (storedpass.length > 0) {
-//   const result = await comparePassword(account.password, res[0].password)
-// }
-
-// const result = await database.getUserByUsername(account.username)
-
-//   .catch((err) => {
-//     console.log(err)
-//     res.send(err)
-//   })
-//   console.log(result)
-//   // kolla om result.password == account.password
-//   res.send("ok")
-// })
-
-/* app.post('/createUser', async (req, res) => {
-
-    let account = req.body; 
-    let password = req.body.password; 
-    let hashPassword = await bcrypt.hash(password ,10);
-    
-    let sql = "INSERT INTO Users (userId, username, password) VALUES (null, ?, ?);";
-    let query = mysql.format(sql, [account.username, hashPassword])
-    db.query(query, (err, result) => {
-      if (err) {
-        console.log(err)
-      }
-      else {
-      res.send(result);
-      res.statusCode = 200;
-    }
   });
-}) */
+  res.status(200).json(userInfo);
+});
+
+app.post("/removeuser", pingLimiter, checkTokenBoss, async (req, res) => {
+  let user = req.body.userId;
+  console.log("removeuser id = ", user);
+  const deluser = await db.deleteUser(user).catch((err) => {
+    res.send("error");
+  });
+});
+
+

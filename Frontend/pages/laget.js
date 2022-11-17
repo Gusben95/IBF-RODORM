@@ -45,11 +45,6 @@ const laget = () => {
     );
   });
 
-  /* list-style: none; */
-  /* const playersList = [];
-  for (let i = 0; i < playerData.length; i++) {
-  } */
-
   return (
     <>
       <div>
