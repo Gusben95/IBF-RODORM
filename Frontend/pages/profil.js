@@ -1,3 +1,5 @@
+import styles from "../styles/profil.module.css";
+
 import { useState, useEffect } from "react";
 
 export default function Profil() {
@@ -29,9 +31,9 @@ export default function Profil() {
   }, []);
 
   return (
-    <div>
+    <div className={styles.divEtt}>
       <p>Information om dig själv o sånt Profil</p>
-      <div>
+      <div className={styles.divTvå}>
         {user.username ? (
           <>
             <p>välkommen</p>
