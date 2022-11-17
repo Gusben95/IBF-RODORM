@@ -1,9 +1,86 @@
+/* mitt eget  */
+.divEtt {
+  display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    height:20%
+}
+
+.divTvåBakgrund {
+  /* box-sizing:border-box; */
+  display: flex;
+  background-color: rgb(155, 5, 5);
+  width: 100%;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  justify-content: center;
+
+}
+
+.divTvåImg {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  overflow: scroll;
+  position: relative;
+  
+  
+  
+}
+
+.tekning {
+  height: 800px;
+  width: 100%;
+}
+
+.divTre {
+  display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    height:20%
+}
+
+.h1 {
+  font-size: xx-large;
+}
+
+.pEtt, .pTwo, .pTre{
+  font-size:xx-large;
+}
+
+@media screen and (max-width: 800px) {
+  .divTvåBakgrund {
+    
+    background-color: rgb(155, 5, 5);
+    width: 100%;
+    height: 1500px;
+  }
+  .divTvåImg {
+    display: flex;
+    flex-direction: column;
+  }
+  .tekning {
+    max-height: 500px;
+    /* max-width: 300px; */
+    width: 500px;
+  }
+    
+}
+
+/* mitt eget  */
+
 .container {
   padding: 0 2rem;
 }
 
 .main {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   padding: 4rem 0;
   flex: 1;
   display: flex;

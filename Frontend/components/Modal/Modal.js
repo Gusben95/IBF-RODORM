@@ -6,14 +6,23 @@ import {useRouter} from "next/router";
 
 
 const Modal = () => {
-  const usernameRef = useRef();
-  const passwordRef = useRef();
+  const usernameRef = useRef(null);
+  const passwordRef = useRef(null);
+  const passwordrepRef = useRef(null);
+  const strengthBadge = useRef("");
+  const infoh1 = useRef();
+  const isEqual = useRef();
+  let strongPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})')
+  let mediumPassword = new RegExp('((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{6,}))|((?=.*[a-z])(?=.*[A-Z])(?=.*[^A-Za-z0-9])(?=.{8,}))')
   const [showModal, setShowModal] = useState(false);
+  const [showReg, setReg] = useState(false); 
   const router = useRouter();
   //gör en färdig för axios, googla baseurl
 
   const loginUser = async () => {
+   try {
     const response = await fetch("http://localhost:4000/loginUser", {
+      
       method: "POST",
       credentials: "include",
       headers: {
@@ -24,28 +33,20 @@ const Modal = () => {
         password: passwordRef.current.value,
       }),
     });
+    console.log("rad 36 modal")
     if (response.status === 200){
+      setShowModal(false)
       router.push('/profil');
       return
     }
     const data = await response.json();
     console.log(data);
-     
+   
+   }catch(err){
+    console.log(err);
+   }  
   };
 
-  async function loggedIn() {
-    const response = await fetch("http://localhost:4000/isLoggedIn", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    console.log(response.status); 
-    if (response.status == 200) {
-    } else if (response.status == 400) {
-    }
-  }
 
   const loggOut = () => {
     fetch("http://localhost:4000/loggOut", {
@@ -55,11 +56,17 @@ const Modal = () => {
         "Content-Type": "application/json",
       },
     });
-    
+    router.push('/')
   };
 
-  const registerUser = () => {
-    fetch("http://localhost:4000/createUser", {
+  const registerUser = async () => {
+     if(passwordRef.current.value !== passwordrepRef.current.value){
+      isEqual.current.textContent = 'Lösenordet matchar inte'
+      return}
+     if (!strongPassword){
+      isEqual.current.textContent = 'svagt lösenord'
+      return}
+     const response = await fetch("http://localhost:4000/createUser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -70,8 +77,28 @@ const Modal = () => {
         username: usernameRef.current.value,
         password: passwordRef.current.value,
       }),
+
     });
+   if (response.status == 200)
+   {setReg(false)}
   }
+  
+  function strengthChecker(PasswordParameter) {
+    
+   if(!showReg){return}
+    if(strongPassword.test(PasswordParameter)) {
+        strengthBadge.current.style.color = "green";
+        strengthBadge.current.textContent = 'StronK!';
+        
+    } else if(mediumPassword.test(PasswordParameter)) {
+        strengthBadge.current.style.color = 'blue';
+        strengthBadge.current.textContent = 'Medium';
+    } else {
+        strengthBadge.current.style.color = 'red';
+        strengthBadge.current.textContent = 'Weak';
+    }
+}
+
   /* 
       const registerChef = async () => {
         e.preventDefault();
@@ -131,7 +158,8 @@ const Modal = () => {
               e.stopPropagation();
             }}
           >
-            <h1 className={styles.textLoggaIn}>Logga in</h1>
+            <h1 ref = {infoh1}className={styles.textLoggaIn}> { showReg ? 'register': 'Logga in' }</h1>
+           
             <p
               className={styles.exit}
               onClick={() => {
@@ -144,8 +172,24 @@ const Modal = () => {
             <input
               type="password"
               placeholder="Password"
-              ref={passwordRef}
+              ref={passwordRef} onChange= {(e) => {
+                strengthChecker(passwordRef.current.value)
+              }}
             ></input>
+            {showReg ? (
+            <>
+            <input
+              type="password"
+              placeholder="Password"
+              ref={passwordrepRef} onChange= {(e) => {
+                strengthChecker(passwordrepRef.current.value)
+               
+                }}
+            ></input>
+            <p ref = {strengthBadge}> Lösenords styrka </p>
+            <p ref = {isEqual}></p>
+            </>
+            ) : (
             <button
               className={styles.loginBtn}
               type="submit"
@@ -153,30 +197,23 @@ const Modal = () => {
             >
               Logga in
             </button>
+            ) }
             <div>
               <button
                 className={styles.registerBtn}
                 type="submit"
-                onClick={registerUser}
+                onClick={ showReg ? registerUser : setReg
+                }
               >
                 Registrera
               </button>
             </div>
-            <div>
-              <button onClick={loggOut}>Logga ut</button>
-            </div>
-            <button onClick={loggedIn}>Testa</button>
           </div>
         </div>
       )}
 
-      <button
-        onClick={() => {
-          setShowModal(true);
-        }}
-      >
-        Logga in
-      </button>
+     <button onClick={() => {setShowModal(true)}}>Logga in</button>
+      <button onClick ={loggOut} >Logga ut</button>
     </div>
   );
 };

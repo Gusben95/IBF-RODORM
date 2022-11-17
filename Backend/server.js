@@ -12,6 +12,10 @@ const {
   checkTokenAdminBoss,
   checkTokenBoss,
 } = require("./middleware/jwt");
+/* const { apiLimiter } = require ("./middleware/ratelimit");
+/* const rateLimit = require("express-rate-limit"); 
+import rateLimit from ("express-rate-limit"); */
+
 const db = require("./database");
 const { comparePassword, hashPassword } = require("./Utils/bcrypt");
 require("dotenv").config();
@@ -126,13 +130,13 @@ app.post("/loginUser" , async (req, res) => {
 
 app.get("/isLoggedIn", checkTokenAll, async (req, res) => {
   let token = req.cookies.token;
-
+  console.log("loggar toke", token)
   const wholeuser = await db.getUserByToken(token).catch((err) => {
-   
     console.log("Could not get token", err);
-    res.status(400).send("error");
-    res.end();
-    return;
+    return res.status(400).json({
+      message: "ojdå",
+      success: false
+    });
   });
   let user = wholeuser[0];
   user.password = "";
@@ -144,7 +148,7 @@ app.get("/isLoggedIn", checkTokenAll, async (req, res) => {
 
 app.post("/loggOut", async (req, res) => {
   return res 
-    .clearCookie("token", { sameSite: "none", secure: true })
+    .clearCookie("token")
     .status(200)
     .json({ message: "Logged out" });
     
@@ -162,7 +166,7 @@ app.get("/players", async (req, res) => {
 });
 
 
-app.get("/getusers", async (req, res) => {
+app.get("/getusers", checkTokenBoss ,async (req, res) => {
   const userInfo = await db.getAllUsers().catch((err) => {
     res.status(400).send("error");
     logger.error(err);
@@ -171,7 +175,7 @@ app.get("/getusers", async (req, res) => {
   res.status(200).json(userInfo);
 })
 
-app.post("/removeuser", async (req, res) => {
+app.post("/removeuser", checkTokenBoss, async (req, res) => {
   let user = req.body.userId;
   console.log("removeuser id = ", user)
   const deluser = await db.deleteUser(user).catch((err) => { 

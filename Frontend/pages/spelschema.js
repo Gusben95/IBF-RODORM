@@ -5,11 +5,11 @@ import Footer from '../components/Footer/Footer';
 
 const spelschema = () => {
     return (
-        <div>
+        <div className={styles.divEtt}>
         
             <p>Information</p>
         
-        <div>
+        <div className={styles.divEtt}>
             <p>Spelschema och serie:</p>
             
             <a href="https://korpengoteborg.zoezi.se/member#/teamsports/division/96"
@@ -23,9 +23,13 @@ const spelschema = () => {
             </a>
         </div>
 
-        <div className = {styles.iFrameContainer}>
-                <iframe className = {styles.iFrameContent} src="https://korpengoteborg.zoezi.se/member#/teamsports/division/96" scrolling="no"></iframe>
+        <div>
+          <a href="https://heja.io/">Heja app för se träningar</a>
         </div>
+
+        {/* <div className = {styles.iFrameContainer}>
+                <iframe className = {styles.iFrameContent} src="https://korpengoteborg.zoezi.se/member#/teamsports/division/96" scrolling="no"></iframe>
+        </div> */}
         
         
         
