@@ -17,7 +17,6 @@ const Modal = () => {
   const [showModal, setShowModal] = useState(false);
   const [showReg, setReg] = useState(false); 
   const router = useRouter();
-  //gör en färdig för axios, googla baseurl
 
   const loginUser = async () => {
    try {
@@ -98,50 +97,6 @@ const Modal = () => {
         strengthBadge.current.textContent = 'Weak';
     }
 }
-
-  /* 
-      const registerChef = async () => {
-        e.preventDefault();
-    
-        const { username, password } = document.forms[0];
-    
-        const response = await fetch("http://127.0.0.1:4000/createUser", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body:JSON.stringify({
-            username: usernameRef.current.value,
-            password: passwordRef.current.value,
-            role: "Chef",
-          }),
-        });
-    }
-
-        const data = await response.json(); */
-
-  /* const logoutUser = () => {
-        fetch("http://127.0.0.1:4000/logoutUser", {
-            method: "POST",
-            headers: {
-                'Content-type': 'application/json'
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            }
-        })
-    } */
-
-  /*   module.exports = {
-      async redirects() {
-        return [
-          {
-            source: '/about',
-            destination: '/',
-            permanent: true,
-          },
-        ]
-      },
-    } */
 
   return (
     <div>

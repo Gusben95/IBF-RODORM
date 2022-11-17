@@ -13,13 +13,12 @@ https://images2.imgbox.com/e3/8e/LlAQsP02_o.jpg glada men trötta
  */
 
 export default function Home() {
-  //en div för bilderna, sen overflow-scroll with 100%, ligger i diven, kan bara slida
 
   return (
     <div>
       <main>
         <div className={styles.divEtt}>
-          <h1>VÄLKOMMEN TILL GÖTEBORGS BÄSTA VIKINGALAG</h1>
+          <h1 className={styles.h1}>VÄLKOMMEN TILL GÖTEBORGS BÄSTA VIKINGALAG</h1>
           <p className={styles.pEtt}>
             IBF Rödeorm startades 2019 av ett gäng som tidigare spelat innebandy
             samt andra som följt med bara för att ha kul. Vi har alltid behov av
@@ -64,27 +63,3 @@ export default function Home() {
   );
 }
 
-{
-  /* <div className={styles.divTvåImg}>
-          <img
-            className={styles.tekning}
-            loading="lazy"
-            src="https://images2.imgbox.com/e1/cb/maYrjQ3c_o.png"
-          ></img>
-          <img
-            className={styles.tekning}
-            loading="lazy"
-            src="https://images2.imgbox.com/e3/1a/F5RIaHRM_o.jpg"
-          ></img>
-          <img
-            className={styles.tekning}
-            loading="lazy"
-            src="https://images2.imgbox.com/1d/b3/ojyjOczN_o.png"
-          ></img>
-          <img
-            className={styles.tekning}
-            loading="lazy"
-            src="https://images2.imgbox.com/e3/8e/LlAQsP02_o.jpg"
-          ></img>
-        </div> */
-}
